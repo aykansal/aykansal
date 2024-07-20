@@ -9,29 +9,56 @@
 // import Boy from "../assets/Boy.svg";
 // import headerBG from "../assets/headerBg.svg";
 
-// export const headerData = {
-//   bg: headerBG,
-//   boy: Boy,
-// };
-// export const tools = [
-//   {
-//     name: "React",
-//     logoSrc:
-//       "https://img.icons8.com/external-tal-revivo-color-tal-revivo/24/external-react-a-javascript-library-for-building-user-interfaces-logo-color-tal-revivo.png",
-//   },
-//   { name: "Node", logoSrc: Node },
-//   { name: "MongoDB", logoSrc: MongoDB },
-//   { name: "Tailwind", logoSrc: Tailwind },
-//   { name: "Git", logoSrc: "Git" },
-//   { name: "Axios", logoSrc: Axios },
-//   { name: "Express", logoSrc: Express },
-//   { name: "Firebase", logoSrc: Firebase },
-//   { name: "Mongoose", logoSrc: Mongoose },
-//   { name: "GitHub", logoSrc: "GitHub" },
-// ];
-
+export const tools = [
+  //   {
+  //     name: "React",
+  //     logoSrc:
+  //       "https://img.icons8.com/external-tal-revivo-color-tal-revivo/24/external-react-a-javascript-library-for-building-user-interfaces-logo-color-tal-revivo.png",
+  //   },
+  //   { name: "Node", logoSrc: Node },
+  //   { name: "MongoDB", logoSrc: MongoDB },
+  //   { name: "Tailwind", logoSrc: Tailwind },
+  //   { name: "Git", logoSrc: "Git" },
+  //   { name: "Axios", logoSrc: Axios },
+  //   { name: "Express", logoSrc: Express },
+  //   { name: "Firebase", logoSrc: Firebase },
+  //   { name: "Mongoose", logoSrc: Mongoose },
+  //   { name: "GitHub", logoSrc: "GitHub" },
+];
+export const schools = [
+  //   {
+  //     logo: "buildspace",
+  //     title: "BuildSpace",
+  //     cgpa: "NA",
+  //     course: "Startup",
+  //     duration: "June 2024",
+  //     status: "Enrolled",
+  //     delay: 0,
+  //   },
+  //   {
+  //     logo: "cu",
+  //     title: "Chandigarh University",
+  //     cgpa: "8 CGPA",
+  //     course: "B.Tech Computer Science",
+  //     duration: "2022-2026",
+  //     status: "Enrolled",
+  //     delay: 0.5,
+  //   },
+  //   {
+  //     logo: "dav",
+  //     title: "Kali Ram DAV Public School",
+  //     cgpa: "88.7%",
+  //     course: "12th",
+  //     duration: "2021",
+  //     status: "Completed",
+  //     delay: 1,
+  //   },
+];
+// USED in Components
+export const headingClass = "mt-9 mb-4 font-bold text-2xl";
 export const projects = [
   {
+    id: 1,
     type: "Web3 Community Platform",
     title: "NFT Nexus",
     about:
@@ -39,9 +66,10 @@ export const projects = [
     stack: ["React", "TailwindCSS", "MongoDB", "Express", "NodeJS"],
     live: "https://nftnexs.vercel.app",
     code: "",
-    date: "2024-Present",
+    date: "Mar 2024",
   },
   {
+    id: 2,
     type: "Web3 Community Platform",
     title: "UniSync",
     about:
@@ -49,9 +77,10 @@ export const projects = [
     stack: ["React", "TailwindCSS", "MongoDB", "Express", "NodeJS"],
     live: "https://campusync.vercel.app",
     code: "",
-    date: "2023",
+    date: "Jun 2023",
   },
   {
+    id: 3,
     type: "Web3 Community Platform",
     title: "BuildNest",
     about:
@@ -59,7 +88,7 @@ export const projects = [
     stack: ["React", "TailwindCSS", "MongoDB", "Express", "NodeJS"],
     live: "https://campusync.vercel.app",
     code: "",
-    date: "2022",
+    date: "May 2022",
   },
 ];
 export const sections = [
@@ -69,15 +98,15 @@ export const sections = [
     url: "",
   },
   {
-    id: 5,
-    name: "Blogs",
-    url: "",
-  },
-  {
     id: 2,
     name: "Projects",
     url: "",
   },
+  // {
+  //   id: 5,
+  //   name: "Blogs",
+  //   url: "",
+  // },
   {
     id: 3,
     name: "Education",
@@ -85,7 +114,7 @@ export const sections = [
   },
   {
     id: 4,
-    name: "Work Experience",
+    name: "Open Source",
     url: "",
   },
   {
@@ -116,49 +145,29 @@ export const work = [
     id: 1,
     title: "Curious EcoSystem",
     position: "Full Stack Developer",
-    date: "Jun 2024",
+    date: "May 2024 - Present",
     about:
       "Building About Page of the company website with React , TailwindCSS, Aceternity UI, Framer Motion.",
     stack: ["React", "TailwindCSS", "MongoDB", "Express", "NodeJS"],
-    endDate: "Present",
   },
+  // {
+  //   id: 2,
+  //   title: "WictroniX",
+  //   position: "FrontEnd Developer",
+  //   date: "",
+  //   about: "Creating About Page of the company website.",
+  //   stack: ["React", "TailwindCSS", "MongoDB", "Express", "NodeJS"],
+  // },
+];
+export const community = [
   {
-    id: 2,
-    title: "WictroniX",
-    position: "FrontEnd Developer",
-    date: "Jun 2023",
-    about: "Creating About Page of the company website.",
-    stack: ["React", "TailwindCSS", "MongoDB", "Express", "NodeJS"],
-    endDate: "Jul-2023",
-  },
+    id: 1,
+    title: "PandoraX",
+    position: "Co-Founder",
+    date: "May 2023 - Apr 2024",
+    about:
+      "Building About Page of the company website with React , TailwindCSS, Aceternity UI, Framer Motion.",
+    stack: ["Community Building", "Networking"]
+  }
 ];
 
-// export const schools = [
-//   {
-//     logo: "buildspace",
-//     title: "BuildSpace",
-//     cgpa: "NA",
-//     course: "Startup",
-//     duration: "June 2024",
-//     status: "Enrolled",
-//     delay: 0,
-//   },
-//   {
-//     logo: "cu",
-//     title: "Chandigarh University",
-//     cgpa: "8 CGPA",
-//     course: "B.Tech Computer Science",
-//     duration: "2022-2026",
-//     status: "Enrolled",
-//     delay: 0.5,
-//   },
-//   {
-//     logo: "dav",
-//     title: "Kali Ram DAV Public School",
-//     cgpa: "88.7%",
-//     course: "12th",
-//     duration: "2021",
-//     status: "Completed",
-//     delay: 1,
-//   },
-// ];

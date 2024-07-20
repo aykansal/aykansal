@@ -49,7 +49,7 @@ function SideFixed(props) {
       </div>
       <ul className="flex flex-col gap-y-5">
         {sections.map((section) => (
-          <NavLink to={{}} key={section.id}>
+          <NavLink to={{}} key={section.id} >
             <motion.div
               className="flex items-center gap-7"
               onClick={() => setSectionActive(section.id)}
@@ -77,14 +77,14 @@ function SideFixed(props) {
       </ul>
       <div className="flex gap-8">
         {socials.map((i, index) => (
-          <a
+          <motion.a
             key={i.id}
             href={i.profile}
             onHoverStart={() => handleSocialHoverStart(index)}
             onHoverEnd={() => handleSocialHoverEnd(index)}
           >
             <img className="h-8 w-8" src={i.icon} />
-          </a>
+          </motion.a>
         ))}
       </div>
     </div>
