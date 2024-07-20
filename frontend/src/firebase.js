@@ -1,4 +1,5 @@
-import 'firebase/database';
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: String(import.meta.env.VITE_apiKey),
@@ -9,8 +10,7 @@ const firebaseConfig = {
     appId: String(import.meta.env.VITE_appId),
 };
 
-const firebaseApp = firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
-let db = firebaseApp.fireStore();
+const db = getFirestore(app);
 export { db };
-export default Firebase;

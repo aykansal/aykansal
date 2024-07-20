@@ -8,15 +8,19 @@ function Contact({ sectionName }) {
 
   const handleSubmit = (e) => {
     e.prevantDefault();
+
     db.collection("contacts")
       .add({
-        email: email,
+        email: email.toLowerCase(),
         message: message,
       })
       .then(() =>
         alert("Message has been Submitted, I'll conatact you shortly!!")
       )
       .catch((error) => alert(error.message));
+
+    setEmail("");
+    setMessage("");
   };
 
   return (
@@ -24,7 +28,6 @@ function Contact({ sectionName }) {
       <div className={headingClass}>{sectionName}</div>
       <form
         onSubmit={handleSubmit}
-        method="post"
         className="flex flex-col gap-y-5 items-stretch justify-start"
       >
         <h3 className="text-[1.1rem] font -sans">
