@@ -12,7 +12,7 @@ function Common({ array, sectionName }) {
       {array?.map((prj) => (
         <motion.div
           key={prj.title}
-          className={`flex bg-transparent ${
+          className={`flex bg-transparent font-inter ${
             hoverBox !== null && hoverBox !== prj.id ? "opacity-60" : ""
           } hover:bg-slate-800/[0.65] rounded-md transition-all ease-in-out py-6 px-5`}
           onHoverStart={() => {

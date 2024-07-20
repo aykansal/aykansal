@@ -3,6 +3,6 @@
 @import "tailwindcss/utilities";
 
 @font-face {
-    font-family: 'Font Name';
+    font-family: 'inter';
     src: url('./assets/fonts/730e8169368baf37-s.p.woff2') format('woff2');
 }

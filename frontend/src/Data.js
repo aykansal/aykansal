@@ -1,30 +1,3 @@
-// import NFTNexs from "../assets/nftnexus.png";
-// import Node from "../assets/toolroom/Node.svg";
-// import Axios from "../assets/toolroom/Axios.svg";
-// import MongoDB from "../assets/toolroom/Mongo.svg";
-// import Express from "../assets/toolroom/Express.svg";
-// import Tailwind from "../assets/toolroom/Tailwind.svg";
-// import Firebase from "../assets/toolroom/Firebase.svg";
-// import Mongoose from "../assets/toolroom/Mongoose.svg";
-// import Boy from "../assets/Boy.svg";
-// import headerBG from "../assets/headerBg.svg";
-
-export const tools = [
-  //   {
-  //     name: "React",
-  //     logoSrc:
-  //       "https://img.icons8.com/external-tal-revivo-color-tal-revivo/24/external-react-a-javascript-library-for-building-user-interfaces-logo-color-tal-revivo.png",
-  //   },
-  //   { name: "Node", logoSrc: Node },
-  //   { name: "MongoDB", logoSrc: MongoDB },
-  //   { name: "Tailwind", logoSrc: Tailwind },
-  //   { name: "Git", logoSrc: "Git" },
-  //   { name: "Axios", logoSrc: Axios },
-  //   { name: "Express", logoSrc: Express },
-  //   { name: "Firebase", logoSrc: Firebase },
-  //   { name: "Mongoose", logoSrc: Mongoose },
-  //   { name: "GitHub", logoSrc: "GitHub" },
-];
 export const schools = [
   //   {
   //     logo: "buildspace",
@@ -55,7 +28,7 @@ export const schools = [
   //   },
 ];
 // USED in Components
-export const headingClass = "mt-9 mb-4 font-bold text-2xl";
+export const headingClass = "mt-9 mb-4 font-bold text-2xl font-inter";
 export const projects = [
   {
     id: 1,
