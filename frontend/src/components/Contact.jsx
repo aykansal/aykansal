@@ -1,35 +1,33 @@
 import React, { useState } from "react";
 import { headingClass } from "../Data";
 import { db } from "../firebase";
+import { addDoc, collection } from "firebase/firestore";
 
 function Contact({ sectionName }) {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
-  const handleSubmit = (e) => {
-    e.prevantDefault();
+  const contactsCollectionRef = collection(db, "portfolio");
 
-    db.collection("contacts")
-      .add({
-        email: email.toLowerCase(),
+  const handleSubmit = async () => {
+    try {
+      await addDoc(contactsCollectionRef, {
+        email: email,
         message: message,
-      })
-      .then(() =>
-        alert("Message has been Submitted, I'll conatact you shortly!!")
-      )
-      .catch((error) => alert(error.message));
-
+      });
+    } catch (err) {
+      alert(err.message);
+      console.error(err);
+    }
     setEmail("");
     setMessage("");
+    alert("Message Sent Successfully");
   };
 
   return (
     <>
       <div className={headingClass}>{sectionName}</div>
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-y-5 items-stretch justify-start"
-      >
+      <div className="flex flex-col gap-y-5 items-stretch justify-start">
         <h3 className="text-[1.1rem] font -sans">
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iure,
           voluptates?
@@ -64,12 +62,12 @@ function Contact({ sectionName }) {
           />
         </div>
         <button
-          type="submit"
+          onClick={handleSubmit}
           className="text-start text-[1.05rem] rounded-lg py-2 px-4 w-fit border border-teal-300 text-teal-400 hover:text-slate-950 hover:bg-teal-400 transition-all duration-200 ease-in-out"
         >
           Send Message
         </button>
-      </form>
+      </div>
     </>
   );
 }
