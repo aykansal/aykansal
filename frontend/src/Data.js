@@ -28,7 +28,7 @@ export const schools = [
   //   },
 ];
 // USED in Components
-export const headingClass = "mt-9 mb-4 font-bold text-2xl font-inter";
+export const headingClass = "mt-9 mb-4 font-bold text-2xl xl:text-3xl font-inter";
 export const projects = [
   {
     id: 1,

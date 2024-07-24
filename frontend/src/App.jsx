@@ -4,12 +4,14 @@ import SideScroll from "./components/SideScroll";
 
 function App() {
   return (
-    <div className="flex text-slate-400 bg-slate-900 min-h-screen max-w-screen py-[6rem] px-[12rem]">
-      <div className="basis-1/2">
-        <SideFixed />
-      </div>
-      <div className="basis-1/2">
-        <SideScroll />
+    <div className="bg-slate-900 min-h-screen max-w-screen flex justify-center ">
+      <div className="flex justify-between gap-10 xl:gap-x-7 2xl:gap-x-0 justify-center max-w-[1536px] text-slate-400 py-[4rem] xl:py-[6rem] px-[6rem] xs:px-[6rem] sm:px-[6rem] md:px-[6rem] lg:px-[3.5rem] xl:px-[2rem] 2xl:px-[8rem]">
+        <div className="basis-[45%] 2xl:basis-1/2  ">
+          <SideFixed />
+        </div>
+        <div className="basis-[50%] xl:basis-[45%]  2xl:basis-1/2">
+          <SideScroll />
+        </div>
       </div>
     </div>
   );

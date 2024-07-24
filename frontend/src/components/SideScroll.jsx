@@ -18,7 +18,7 @@ export default function SideScroll() {
 
   return (
     <div className="h-full w-full flex flex-col">
-      <p className="text-justify">
+      <p className="w-full xl:w[30rem] text-justify 2xl:text-xl">
         My main focus these days is building accessible user interfaces for our
         customers at Klaviyo. I most enjoy building software in the sweet spot
         where design and engineering meet — things that look good but are also

@@ -12,17 +12,17 @@ function Common({ array, sectionName }) {
       {array?.map((prj) => (
         <motion.div
           key={prj.title}
-          className={`flex bg-transparent font-inter ${
+          className={`flex justify-between bg-transparent font-inter hover:bg-slate-800/[0.65] rounded-md transition-all ease-in-out py-3 xl:py-6 px-3 xl:px-5 ${
             hoverBox !== null && hoverBox !== prj.id ? "opacity-60" : ""
-          } hover:bg-slate-800/[0.65] rounded-md transition-all ease-in-out py-6 px-5`}
+          } `}
           onHoverStart={() => {
             setHoverBox(prj.id);
           }}
           onHoverEnd={() => setHoverBox(null)}
         >
-          <div className="basis-1/5">{prj.date}</div>
-          <div className="basis-4/5 flex flex-col gap-y-2">
-            <Link className="inline-flex items-baseline font-medium leading-tight text-slate-200 hover:text-teal-300 focus-visible:text-teal-300 group/link text-base">
+          <div className="w-[7rem] basis-1/4 2xl:text-lg">{prj.date}</div>
+          <div className="basis-3/4 flex flex-col gap-y-2 flex-wrap">
+            <Link className="inline-flex items-baseline font-medium leading-tight text-slate-200 hover:text-teal-300 focus-visible:text-teal-300 group/link text-base 2xl:text-xl ">
               {prj.title}
               <motion.svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -38,12 +38,14 @@ function Common({ array, sectionName }) {
                 />
               </motion.svg>
             </Link>
-            <p className="text-justify pr-12 leading-normal">{prj.about}</p>
-            <div className="mt-4 flex items-center">
+            <p className="text-justify pr-6 xl:pr-12 2xl:pr-6 leading-normal 2xl:text-xl ">
+              {prj.about}
+            </p>
+            <div className="mt-4 flex items-center flex-wrap">
               {prj.stack.map((i) => (
                 <span
                   key={i}
-                  className="mr-2 rounded-full bg-teal-400/10 px-3 py-1 text-[.85rem] font-medium  text-teal-300"
+                  className="m-2 rounded-full bg-teal-400/10 px-3 py-1 text-[.85rem] 2xl:text-[1rem] tracking-widest font-medium text-teal-300"
                 >
                   {i}
                 </span>

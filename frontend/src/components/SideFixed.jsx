@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { NavLink } from "react-router-dom";
-import {socials, sections} from '../Data'
+import { socials, sections } from "../Data";
 
 function SideFixed(props) {
   const [hoverStates, setHoverStates] = useState({});
@@ -37,19 +37,21 @@ function SideFixed(props) {
   };
 
   return (
-    <div className="flex flex-col h-full content-center gap-20 fixed">
-      <div className="flex flex-col gap-y-4">
-        <h1 className="text-5xl font-bold text-slate-200">Ayush Kansal</h1>
-        <h3 className="text-slate-300 font-semibold text-lg">
+    <div className="flex flex-col h-full content-center gap-24 fixed">
+      <div className="flex flex-col gap-y-4 2xl:gap-y-8">
+        <h1 className="text-[3.8rem] 2xl:text-[5.1rem] font-bold text-slate-200">
+          Ayush Kansal
+        </h1>
+        <h3 className="text-slate-300 font-semibold text-[1.75rem] 2xl:text-4xl">
           Junior Frontend Engineer
         </h3>
-        <p className="w-[20rem] text-lg">
+        <p className="w-[24rem] 2xl:w-[28rem] text-2xl 2xl:text-3xl">
           I build pixel-perfect, engaging, and accessible digital experiences.
         </p>
       </div>
       <ul className="flex flex-col gap-y-5">
         {sections.map((section) => (
-          <NavLink to={{}} key={section.id} >
+          <NavLink to={{}} key={section.id}>
             <motion.div
               className="flex items-center gap-7"
               onClick={() => setSectionActive(section.id)}
@@ -65,7 +67,7 @@ function SideFixed(props) {
               />
               <li
                 key={section.id}
-                className={`uppercase font-bold text-sm ${
+                className={`uppercase font-bold text-sm xl:text-xl xl:tracking-widest ${
                   section.id === sectionActive ? "text-slate-200" : ""
                 }`}
               >
@@ -75,7 +77,7 @@ function SideFixed(props) {
           </NavLink>
         ))}
       </ul>
-      <div className="flex gap-8">
+      <div className="flex gap-10">
         {socials.map((i, index) => (
           <motion.a
             key={i.id}
@@ -83,7 +85,7 @@ function SideFixed(props) {
             onHoverStart={() => handleSocialHoverStart(index)}
             onHoverEnd={() => handleSocialHoverEnd(index)}
           >
-            <img className="h-8 w-8" src={i.icon} />
+            <img className="h-8 xl:h-11 w-8 xl:w-11" src={i.icon} />
           </motion.a>
         ))}
       </div>
