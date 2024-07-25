@@ -39,7 +39,7 @@ function SideFixed(props) {
         <h1 className=" text-[3rem] text-[2.7rem] xl:text-[2.8rem] 2xl:text-[3.2rem] font-bold text-slate-200">
           Ayush Kansal
         </h1>
-        <h3 className="text-slate-300 font-semibold text-[1.75rem] 2xl:text-2xl xl:mt-2">
+        <h3 className="text-slate-300 font-semibold text-[1.75rem] 2xl:text-[22px] xl:mt-2">
           Junior Frontend Engineer
         </h3>
         {window.innerWidth >= 1024 ? (

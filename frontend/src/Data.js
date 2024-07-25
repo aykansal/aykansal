@@ -27,6 +27,7 @@ export const schools = [
   //     delay: 1,
   //   },
 ];
+
 // USED in Components
 export const headingClass = "mt-9 mb-4 font-semibold text-xl xl:text-2xl font-inter";
 export const projects = [
@@ -109,14 +110,6 @@ export const work = [
       "Building About Page of the company website with React , TailwindCSS, Aceternity UI, Framer Motion.",
     stack: ["React", "TailwindCSS", "MongoDB", "Express", "NodeJS"],
   },
-  // {
-  //   id: 2,
-  //   title: "WictroniX",
-  //   position: "FrontEnd Developer",
-  //   date: "",
-  //   about: "Creating About Page of the company website.",
-  //   stack: ["React", "TailwindCSS", "MongoDB", "Express", "NodeJS"],
-  // },
 ];
 export const community = [
   {
@@ -129,4 +122,3 @@ export const community = [
     stack: ["Community Building", "Networking"]
   }
 ];
-
