@@ -12,15 +12,14 @@ function Common({ array, sectionName }) {
       {array?.map((prj) => (
         <motion.div
           key={prj.title}
-          className={`flex justify-between bg-transparent font-inter hover:bg-slate-800/[0.65] rounded-md transition-all ease-in-out py-3 xl:py-6 px-3 xl:px-5 ${
-            hoverBox !== null && hoverBox !== prj.id ? "opacity-60" : ""
-          } `}
+          className={`flex flex-col sm:flex-row gap-[0.31rem] sm:gap-0 justify-between bg-transparent font-inter hover:bg-slate-800/[0.65] rounded-md transition-all ease-in-out py-3 xl:py-6 px-3 xl:px-5 
+            ${hoverBox !== null && hoverBox !== prj.id ? "opacity-60" : ""}`}
           onHoverStart={() => {
             setHoverBox(prj.id);
           }}
           onHoverEnd={() => setHoverBox(null)}
         >
-          <div className="w-[7rem] basis-1/4 2xl:text-lg">{prj.date}</div>
+          <div className=" sm: w-[7rem] basis-1/4 2xl:text-lg">{prj.date}</div>
           <div className="basis-3/4 flex flex-col gap-y-2 flex-wrap">
             <Link className="inline-flex items-baseline font-medium leading-tight text-slate-200 hover:text-teal-300 focus-visible:text-teal-300 group/link text-base 2xl:text-xl ">
               {prj.title}
