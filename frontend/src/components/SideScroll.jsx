@@ -19,20 +19,23 @@ export default function SideScroll() {
   return (
     <div className="h-full w-full flex flex-col">
       {window.innerWidth >= 1024 && (
-        <p className="w-full xl:w-[30rem] text-justify 2xl:text-xl">
-          My main focus these days is building accessible user interfaces for
-          our customers at Klaviyo. I most enjoy building software in the sweet
-          spot where design and engineering meet — things that look good but are
-          also built well under the hood. In my free time, I've also released an
-          online video course that covers everything you need to know to build a
-          web app with the Spotify API.
-        </p>
+        <div className="flex justify-center" >
+          <p className="w-full text-justify 2xl:text-base">
+            My main focus these days is building accessible user interfaces for
+            our customers at Klaviyo. I most enjoy building software in the
+            sweet spot where design and engineering meet — things that look good
+            but are also built well under the hood. In my free time, I've also
+            released an online video course that covers everything you need to
+            know to build a web app with the Spotify API.
+          </p>
+        </div>
       )}
-      <Projects array={projects} sectionName="Projects" />
-      <Work array={work} sectionName="Experience" />
-      <Community array={community} sectionName="Community Experience" />
-      <Contact sectionName="Reach Me Here" />
-      {/* <Blogs array={blogs} /> */}
+      <div>
+        <Projects array={projects} sectionName="Projects" />
+        <Work array={work} sectionName="Experience" />
+        <Community array={community} sectionName="Community Experience" />
+        <Contact sectionName="Contact"/>
+      </div>
     </div>
   );
 }

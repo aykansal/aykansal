@@ -8,20 +8,18 @@ function Common({ array, sectionName }) {
 
   return (
     <>
-      <div className={headingClass}>{sectionName}</div>
+      <div id={sectionName} className={headingClass}>{sectionName}</div>
       {array?.map((prj) => (
         <motion.div
           key={prj.title}
-          className={`flex flex-col sm:flex-row gap-[0.31rem] sm:gap-0 justify-between bg-transparent font-inter hover:bg-slate-800/[0.65] rounded-md transition-all ease-in-out py-3 xl:py-6 px-3 xl:px-5 
+          className={`flex flex-col justify-between sm:flex-row gap-[0.31rem] sm:gap-3 bg-transparent font-inter hover:bg-slate-800/[0.65] rounded-md transition-all ease-in-out py-3 xl:py-6 px-3 xl:px-5 w-[1/3] items-start
             ${hoverBox !== null && hoverBox !== prj.id ? "opacity-60" : ""}`}
-          onHoverStart={() => {
-            setHoverBox(prj.id);
-          }}
+          onHoverStart={() => setHoverBox(prj.id)}
           onHoverEnd={() => setHoverBox(null)}
         >
-          <div className=" sm: w-[7rem] basis-1/4 2xl:text-lg">{prj.date}</div>
-          <div className="basis-3/4 flex flex-col gap-y-2 flex-wrap">
-            <Link className="inline-flex items-baseline font-medium leading-tight text-slate-200 hover:text-teal-300 focus-visible:text-teal-300 group/link text-base 2xl:text-xl ">
+          <div className="basis-[20%] ">{prj.date}</div>
+          <div className="basis-[80%] flex flex-col gap-y-1 flex-wrap">
+            <Link className="inline-flex items-baseline font-medium text-slate-200 hover:text-teal-300 focus-visible:text-teal-300 group/link text-base 2xl:text-[1.125rem] tracking-wide">
               {prj.title}
               <motion.svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -37,14 +35,14 @@ function Common({ array, sectionName }) {
                 />
               </motion.svg>
             </Link>
-            <p className="text-justify pr-6 xl:pr-12 2xl:pr-6 leading-normal 2xl:text-xl ">
+            <p className="text-justify pr-6 xl:pr-12 2xl:pr-6 2xl:text-base">
               {prj.about}
             </p>
-            <div className="mt-4 flex items-center flex-wrap">
+            <div className="mt-1 flex items-center flex-wrap">
               {prj.stack.map((i) => (
                 <span
                   key={i}
-                  className="m-2 rounded-full bg-teal-400/10 px-3 py-1 text-[.85rem] 2xl:text-[1rem] tracking-widest font-medium text-teal-300"
+                  className="m-1 rounded-full bg-teal-400/10 px-3 py-[0.15rem] text-[.85rem] 2xl:text-[.8rem] tracking-widest font-medium text-teal-300"
                 >
                   {i}
                 </span>

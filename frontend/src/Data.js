@@ -28,7 +28,7 @@ export const schools = [
   //   },
 ];
 // USED in Components
-export const headingClass = "mt-9 mb-4 font-bold text-2xl xl:text-3xl font-inter";
+export const headingClass = "mt-9 mb-4 font-semibold text-xl xl:text-2xl font-inter";
 export const projects = [
   {
     id: 1,
@@ -67,33 +67,19 @@ export const projects = [
 export const sections = [
   {
     id: 1,
-    name: "About",
-    url: "",
+    name: "Projects",
   },
   {
     id: 2,
-    name: "Projects",
-    url: "",
+    name: "Experience",
   },
-  // {
-  //   id: 5,
-  //   name: "Blogs",
-  //   url: "",
-  // },
   {
     id: 3,
-    name: "Education",
-    url: "",
+    name: "Community Experience",
   },
   {
     id: 4,
-    name: "Open Source",
-    url: "",
-  },
-  {
-    id: 6,
-    name: "Community Experience",
-    url: "",
+    name: "Contact",
   },
 ];
 export const socials = [

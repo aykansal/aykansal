@@ -26,7 +26,9 @@ function Contact({ sectionName }) {
 
   return (
     <>
-      <div className={headingClass}>{sectionName}</div>
+      <div id={sectionName} className={headingClass}>
+        {sectionName}
+      </div>
       <div className="flex flex-col gap-y-5 items-stretch justify-start">
         <h3 className="text-[1.1rem] font -sans">
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iure,
