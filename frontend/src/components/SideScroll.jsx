@@ -4,23 +4,23 @@ import { Projects, Work, Community, Contact } from "./index";
 import { projects, work, community } from "../Data";
 
 export default function SideScroll() {
-  useEffect(() => {
-    const lenis = new Lenis();
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
-    return () => {
-      lenis.destroy();
-    };
-  }, []);
+  // useEffect(() => {
+  //   const lenis = new Lenis();
+  //   function raf(time) {
+  //     lenis.raf(time);
+  //     requestAnimationFrame(raf);
+  //   }
+  //   requestAnimationFrame(raf);
+  //   return () => {
+  //     lenis.destroy();
+  //   };
+  // }, []);
 
   return (
     <div className="h-full w-full flex flex-col">
       {window.innerWidth >= 1024 && (
         <div className="flex justify-center" >
-          <p className="w-full text-justify 2xl:text-base">
+          <p className="w-full text-justify text-base">
             My main focus these days is building accessible user interfaces for
             our customers at Klaviyo. I most enjoy building software in the
             sweet spot where design and engineering meet — things that look good

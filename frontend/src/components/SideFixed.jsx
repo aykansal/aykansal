@@ -35,15 +35,15 @@ function SideFixed(props) {
 
   return (
     <div className="flex flex-col h-full content-center gap-16 lg:fixed">
-      <div className="flex flex-col gap-y-3 md:gap-y-4 2xl:gap-y-2">
+      <div className="flex flex-col gap-y-3 md:gap-y-4 xl:gap-y-1">
         <h1 className=" text-[3rem] text-[2.7rem] xl:text-[2.8rem] 2xl:text-[3.2rem] font-bold text-slate-200">
           Ayush Kansal
         </h1>
-        <h3 className="text-slate-300 font-semibold text-[1.75rem] 2xl:text-2xl">
+        <h3 className="text-slate-300 font-semibold text-[1.75rem] 2xl:text-2xl xl:mt-2">
           Junior Frontend Engineer
         </h3>
         {window.innerWidth >= 1024 ? (
-          <p className="w-[24rem] 2xl:w-[28rem] text-2xl 2xl:text-lg">
+          <p className="w-[24rem] 2xl:w-[24rem] text-[17px]">
             I build pixel-perfect, engaging, and accessible digital experiences.
           </p>
         ) : (
@@ -68,11 +68,11 @@ function SideFixed(props) {
                 onHoverEnd={() => handleHoverEnd(section)}
               >
                 <div
-                  className={`h-[1.7px] rounded-full bg-slate-300 transition-all ease-in-out duration-300 
+                  className={`h-[1.7px] rounded-full transition-all ease-in-out duration-300 
                     ${
                       hoverStates[section.id] || sectionActive === section.id
-                        ? "w-[5rem] opacity-100"
-                        : "w-[2rem] opacity-50"
+                        ? "w-[5rem] opacity-100 bg-teal-300"
+                        : "w-[2.25rem] opacity-50 bg-slate-200"
                     }`}
                 />
                 <li

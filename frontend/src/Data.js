@@ -104,7 +104,7 @@ export const work = [
     id: 1,
     title: "Curious EcoSystem",
     position: "Full Stack Developer",
-    date: "May 2024 - Present",
+    date: "May 2024 - July 2024",
     about:
       "Building About Page of the company website with React , TailwindCSS, Aceternity UI, Framer Motion.",
     stack: ["React", "TailwindCSS", "MongoDB", "Express", "NodeJS"],

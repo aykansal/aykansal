@@ -15,7 +15,7 @@ function App() {
         <div className="basis-[45%] 2xl:basis-[35%]">
           <SideFixed />
         </div>
-        <div className="basis-[50%] xl:basis-[45%] 2xl:basis-[45%]">
+        <div className="basis-[50%] xl:basis-[45%] 2xl:basis-[36%]">
           <SideScroll />
         </div>
       </div>
