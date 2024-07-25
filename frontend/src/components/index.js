@@ -4,6 +4,7 @@ import Community from './Community';
 import Work from './Work';
 import Common from './Common';
 import Contact from './Contact';
+import Navbar from './Navbar';
 
 export {
     Common,
@@ -11,6 +12,7 @@ export {
     Work,
     Community,
     // Blogs,
-    Contact
+    Contact,
+    Navbar
 }
 
