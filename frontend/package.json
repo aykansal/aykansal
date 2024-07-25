@@ -10,8 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@firebase/firestore": "^4.6.4",
+    "appwrite": "^14.0.1",
     "clsx": "^2.1.1",
-    "dotenv": "^16.4.5",
     "firebase": "^10.12.4",
     "framer-motion": "^11.3.17",
     "lenis": "^1.1.6",
