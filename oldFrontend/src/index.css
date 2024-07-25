@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    scrollbar-color: #14e956;
+    scrollbar-width: thin;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0)
+}
+
+@font-face {
+    font-family: 'ExoSpace';
+    src: url('./assets/ExoSpace.606b1a1e5fed2c8afb24.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Cyborg';
+    src: url('./assets/Cyborg.074aa61276a2a2f121a4.ttf') format('truetype');
+    font-weight: 100 900;
+}
+
+@layer components {
+    .sectionTitle {
+        @apply bg-[#12141d] shadow-sectionTitle border border-primary rounded-xl font-cyborg font-extrabold text-primary text-5xl tracking-wider p-4 pb-3 px-9 animate-[flipInY_2s_ease_forwards];
+    }
+}
+
