@@ -11,7 +11,7 @@ function App() {
       }`}
     >
       {/* <Navbar /> */}
-      <div className="lg:flex justify-between gap-10 xl:gap-x-7 2xl:gap-x-0 justify-center max-w-[1536px] text-slate-400 py-[4rem] xl:py-[6rem] px-[6rem] xs:px-[6rem] sm:px-[6rem] md:px-[6rem] lg:px-[3.5rem] xl:px-[2rem] 2xl:px-[8rem]">
+      <div className="lg:flex justify-between gap-x-10 xl:gap-x-7 2xl:gap-x-0 justify-center max-w-[1536px] text-slate-400 py-[1.25rem] sm:py-[4rem] xl:py-[6rem] px-[1.25rem] sm:px-[3.5rem] md:px-[3.5rem] lg:px-[3.5rem] xl:px-[2rem] 2xl:px-[8rem]">
         <div className="basis-[45%] 2xl:basis-1/2  ">
           <SideFixed />
         </div>

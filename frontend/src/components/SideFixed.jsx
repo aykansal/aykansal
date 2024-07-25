@@ -37,7 +37,7 @@ function SideFixed(props) {
   return (
     <div className="flex flex-col h-full content-center gap-24 lg:fixed">
       <div className="flex flex-col gap-y-4 2xl:gap-y-8">
-        <h1 className="text-[3.8rem] 2xl:text-[5.1rem] font-bold text-slate-200">
+        <h1 className="text-[3rem] sm:text-[3.8rem] 2xl:text-[5.1rem] font-bold text-slate-200">
           Ayush Kansal
         </h1>
         <h3 className="text-slate-300 font-semibold text-[1.75rem] 2xl:text-4xl">
