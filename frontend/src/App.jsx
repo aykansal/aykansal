@@ -6,16 +6,15 @@ import { Navbar } from "./components";
 function App() {
   return (
     <div
-      className={`bg-slate-900 min-h-screen max-w-screen ${
-        window.innerWidth > 768 && "flex justify-center"
-      }`}
+      className={`bg-slate-900 min-h-screen max-w-screen 
+        ${window.innerWidth > 768 && "flex justify-center"}`}
     >
       {/* <Navbar /> */}
-      <div className="lg:flex justify-between gap-x-10 xl:gap-x-7 2xl:gap-x-0 justify-center max-w-[1536px] text-slate-400 py-[1.25rem] sm:py-[4rem] xl:py-[6rem] px-[1.25rem] sm:px-[3.5rem] md:px-[3.5rem] lg:px-[3.5rem] xl:px-[2rem] 2xl:px-[8rem]">
-        <div className="basis-[45%] 2xl:basis-1/2  ">
+      <div className="lg:flex justify-between gap-x-10 xl:gap-x-[5rem] 2xl:gap-x-20 justify-center max-w-[1536px] text-slate-400 py-[1.25rem] sm:py-[4rem] xl:py-[5rem] px-[1.25rem] sm:px-[3.5rem] md:px-[3.5rem] lg:px-[3.5rem] xl:px-[2rem] 2xl:px-[8rem]">
+        <div className="basis-[45%] 2xl:basis-1/2">
           <SideFixed />
         </div>
-        <div className="basis-[50%] xl:basis-[45%]  2xl:basis-1/2">
+        <div className="basis-[50%] xl:basis-[45%] 2xl:basis-1/2">
           <SideScroll />
         </div>
       </div>
