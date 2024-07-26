@@ -30,7 +30,7 @@ export default function SideScroll() {
           </p>
         </div>
       )}
-      <div>
+      <div className="flex flex-col gap-5">
         <Projects array={projects} sectionName="Projects" />
         <Work array={work} sectionName="Experience" />
         <Community array={community} sectionName="Community Experience" />
