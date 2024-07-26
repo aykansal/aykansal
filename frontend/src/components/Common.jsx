@@ -7,7 +7,7 @@ function Common({ array, sectionName }) {
   const [hoverBox, setHoverBox] = useState(null);
 
   return (
-    <div>
+    <>
       <div id={sectionName} className={headingClass}>{sectionName}</div>
       {array?.map((prj) => (
         <motion.div
