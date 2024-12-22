@@ -3,7 +3,7 @@ I do MERN Dev with specializing in React Frontend Development.
 
 
 ## 🌐 Socials:
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://linkedin.com/in/aykansal) [![X](https://img.shields.io/badge/X-black.svg?logo=X&logoColor=white)](https://x.com/aykansal) 
+[![](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://linkedin.com/in/aykansal) [![](https://img.shields.io/badge/X-black.svg?logo=X&logoColor=white)](https://x.com/aykansal) 
 <!-- [![Medium](https://img.shields.io/badge/Medium-12100E?logo=medium&logoColor=white)](https://medium.com/@aykansal) -->
 
 # 💻 Tech Stack:
