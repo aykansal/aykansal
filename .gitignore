@@ -41,7 +41,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-public
+public/images
 .env.example
 
 readme_old.md
