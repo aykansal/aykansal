@@ -1,4 +1,4 @@
-## Hi there! 
+## Hey!
 
 I'm [Ayush](https://x.com/aykansal), a full-stack developer [![Portfolio](https://img.shields.io/badge/View_Portfolio-1C1C1C?style=flat&logo=codementor&logoColor=white)](https://aykansal.tech)
 
