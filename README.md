@@ -1,9 +1,11 @@
 ## Hi there! 
 
-I'm [Ayush](https://x.com/aykansal), a full-stack developer [![Portfolio](https://img.shields.io/badge/View_Portfolio-1C1C1C?style=flat&logo=codementor&logoColor=white)](https://aykansal.tech)
+I'm [Ayush](https://x.com/aykansal), a full-stack developer [![Portfolio](https://img.shields.io/badge/View_Portfolio-1C1C1C?style=flat&logo=codementor&logoColor=white)](https://aykansal.com)
 
 I love turning ideas into products
 I build consumer apps, dev tools, and occasionally explore in multi-domains.
+
+This is my corner of the internet. It's where I put my work, the things I care about, what I'm currently building, and how to reach me. :)
 
 ## Previously built
 - [Yielder](https://yielder_aykansal.ar.io) - A DeFi yield optimizer on AO that automates suggesting top pools, rebalancing funds for max returns, finding best prices, and real-time tracking.
@@ -41,7 +43,7 @@ I build consumer apps, dev tools, and occasionally explore in multi-domains.
 ![LangGraph](https://img.shields.io/badge/LangGraph-6E3AFF?style=flat&logo=graphql&logoColor=white)
 ![Vercel AI](https://img.shields.io/badge/Pydantic*-000000?style=flat&logo=pydantic&logoColor=white)
 ![OpenAI Agents](https://img.shields.io/badge/OpenAI%20Agents-000000?style=flat&logo=openai&logoColor=white)
-![Vercel AI](https://img.shields.io/badge/Vercel%20AI%20SDK-000000?style=flat&logo=vercel&logoColor=white)
+![AI SDK](https://img.shields.io/badge/Vercel%20AI%20SDK-000000?style=flat&logo=vercel&logoColor=white)
 
 **Tools**  
 ![Docker](https://img.shields.io/badge/Docker-1C1C1C?style=flat&logo=docker&logoColor=2496ED)
@@ -70,3 +72,8 @@ Find me on
 <div align="left">
 * : learning
 </div>
+
+
+## License
+
+[MIT](LICENSE)

@@ -1,0 +1,300 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================
+   DESIGN SYSTEM TOKENS — aykansal
+   ============================================ */
+
+html {
+    scroll-behavior: smooth;
+}
+
+:root {
+    /* FONTS — values set by next/font classes on <html>, fallbacks only */
+    /* SPACING (4px grid) */
+    --spacing-1: 4px;
+    --spacing-2: 8px;
+    --spacing-3: 12px;
+    --spacing-4: 16px;
+    --spacing-5: 20px;
+    --spacing-6: 24px;
+    --spacing-8: 32px;
+    --spacing-10: 40px;
+    --spacing-12: 48px;
+    --spacing-16: 64px;
+    --spacing-20: 80px;
+    --spacing-24: 96px;
+    --spacing-32: 128px;
+
+    /* RADIUS */
+    --radius-sm: 4px;
+    --radius-md: 6px;
+    --radius-lg: 8px;
+    --radius-xl: 12px;
+    --radius-full: 9999px;
+
+    /* TIMING */
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --dur-fast: 100ms;
+    --dur-normal: 200ms;
+    --dur-slow: 500ms;
+
+    /* LIGHT THEME ACCENTS */
+    --accent-primary: oklch(0.55 0.15 40);
+    --accent-primary-hover: oklch(0.49 0.14 40);
+    --accent-primary-muted: oklch(0.55 0.15 40 / 0.08);
+    --accent-secondary: oklch(0.55 0.098 240);
+    --accent-tertiary: oklch(0.52 0.098 150);
+    --pixel-orange: oklch(0.58 0.17 40);
+    --status-error: oklch(0.52 0.15 25);
+    --status-warning: oklch(0.68 0.13 85);
+
+    /* GITHUB GRAPH */
+    --github-green-1: oklch(0.82 0.1 140);
+    --github-green-2: oklch(0.68 0.14 145);
+    --github-green-3: oklch(0.55 0.13 148);
+    --github-green-4: oklch(0.42 0.1 150);
+
+    /* LIGHT THEME (default - "Nord") */
+    --bg-primary: #eceff4;
+    --bg-secondary: #e5e9f0;
+    --bg-tertiary: #d8dee9;
+    --bg-surface: #eceff4;
+    --text-primary: #2e3440;
+    --text-secondary: #3b4252;
+    --text-tertiary: #4c566a;
+    --text-muted: #7b88a1;
+    --border-default: #d8dee9;
+    --border-subtle: #e5e9f0;
+    --border-strong: #c2c8d4;
+
+    /* Accents */
+    --accent-primary: #5e81ac;
+    --accent-primary-hover: #4c6d94;
+    --accent-primary-muted: rgba(94, 129, 172, 0.08);
+    --accent-secondary: #81a1c1;
+    --accent-tertiary: #6b8f5c;
+    --pixel-orange: #bf6043;
+    --status-error: #bf616a;
+    --status-warning: #c08b3e;
+    --github-green-1: #c6e48b;
+    --github-green-2: #7bc96f;
+    --github-green-3: #449e48;
+    --github-green-4: #196127;
+}
+
+/* ============================================
+   DARK THEME (overrides :root when .dark is on <html>)
+   ============================================ */
+.dark {
+    --bg-primary: #2e3440;
+    --bg-secondary: #3b4252;
+    --bg-tertiary: #434c5e;
+    --bg-surface: #4c566a;
+    --text-primary: #eceff4;
+    --text-secondary: #d8dee9;
+    --text-tertiary: #7b88a1;
+    --text-muted: #4c566a;
+    --border-default: #434c5e;
+    --border-subtle: #3b4252;
+    --border-strong: #4c566a;
+
+    /* Accents */
+    --accent-primary: #88c0d0;
+    --accent-primary-hover: #70a8b8;
+    --accent-primary-muted: rgba(136, 192, 208, 0.08);
+    --accent-secondary: #5e81ac;
+    --accent-tertiary: #a3be8c;
+    --pixel-orange: #d08770;
+    --status-error: #bf616a;
+    --status-warning: #ebcb8b;
+    --github-green-1: #0e4429;
+    --github-green-2: #006d32;
+    --github-green-3: #26a641;
+    --github-green-4: #39d353;
+}
+
+/* ============================================
+   TAILWIND v4 THEME MAPPING
+   ============================================ */
+@theme inline {
+    /* Fonts */
+    --font-space: var(--font-space);
+    --font-jetbrains: var(--font-jetbrains);
+    --font-micro: var(--font-micro);
+
+    /* Background colors */
+    --color-bg-primary: var(--bg-primary);
+    --color-bg-secondary: var(--bg-secondary);
+    --color-bg-tertiary: var(--bg-tertiary);
+    --color-bg-surface: var(--bg-surface);
+
+    /* Text colors */
+    --color-text-primary: var(--text-primary);
+    --color-text-secondary: var(--text-secondary);
+    --color-text-tertiary: var(--text-tertiary);
+    --color-text-muted: var(--text-muted);
+
+    /* Border colors */
+    --color-border-default: var(--border-default);
+    --color-border-subtle: var(--border-subtle);
+    --color-border-strong: var(--border-strong);
+
+    /* Accent colors */
+    --color-accent-primary: var(--accent-primary);
+    --color-accent-primary-hover: var(--accent-primary-hover);
+    --color-accent-primary-muted: var(--accent-primary-muted);
+    --color-accent-secondary: var(--accent-secondary);
+    --color-accent-tertiary: var(--accent-tertiary);
+    --color-pixel-orange: var(--pixel-orange);
+    --color-status-error: var(--status-error);
+    --color-status-warning: var(--status-warning);
+
+    /* GitHub graph */
+    --color-github-green-1: var(--github-green-1);
+    --color-github-green-2: var(--github-green-2);
+    --color-github-green-3: var(--github-green-3);
+    --color-github-green-4: var(--github-green-4);
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+body {
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    font-family: var(--font-space);
+    overflow-x: hidden;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes cursor-blink {
+
+    0%,
+    50% {
+        opacity: 1;
+    }
+
+    51%,
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes border-pulse {
+
+    0%,
+    100% {
+        border-color: var(--accent-primary);
+    }
+
+    50% {
+        border-color: var(--accent-primary-hover);
+        box-shadow: 0 0 8px color-mix(in oklch, var(--accent-primary) 15%, transparent);
+    }
+}
+
+@keyframes avatar-float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+@keyframes status-pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* ============================================
+   MARQUEE
+   ============================================ */
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.marquee {
+    animation: marquee 35s linear infinite;
+}
+
+.marquee:hover {
+    animation-play-state: paused;
+}
+
+@keyframes scan-once {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.animate-scan-once {
+    animation: scan-once 0.6s ease-out forwards;
+}
+
+.marquee-mask {
+    -webkit-mask-image: linear-gradient(to right, transparent, black 60px, black calc(100% - 60px), transparent);
+    mask-image: linear-gradient(to right, transparent, black 60px, black calc(100% - 60px), transparent);
+}
+
+/* ============================================
+   UTILITIES
+   ============================================ */
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+.dot-grid-overlay {
+    background-image: radial-gradient(circle, var(--accent-primary) 1px, transparent 1px);
+    background-size: 10px 10px;
+    opacity: 0;
+}
+
+.group:hover .dot-grid-overlay {
+    opacity: 0.05;
+}
+
+/* ============================================
+   REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
