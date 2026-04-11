@@ -17,24 +17,6 @@ export const TIMELINE_END_YEAR = 2026;
 export const YEAR_HEIGHT = 80;
 
 export const experience: ExperienceEntry[] = [
-    // {
-    //     type: "work",
-    //     company: "Hammurabi AI",
-    //     role: "Frontend Engineer",
-    //     logo: "/icons/Hammurabi.svg",
-    //     startDate: { month: 9, year: 2024 },
-    //     badges: ["FRONTEND ENGINEER", "REMOTE", "CLOSED SOURCE"],
-    //     active: true,
-    //     barColor: "accent",
-    //     bullets: [
-    //         "sole frontend engineer on a 15-person team. owned the entire UI layer for a legal AI SaaS serving 22K+ users",
-    //         "reverse-engineered UDF binary format with zero documentation and built a web-based viewer from scratch",
-    //         "built ProseMirror-based legal document editor with smart templates, custom commands, and collaborative editing. significantly reduced drafting time",
-    //         "integrated UYAP Turkish judiciary system. eliminated credential sharing across law firms and resolved a critical security vulnerability",
-    //         "built step-by-step AI execution UI so non-technical lawyers could follow what the system was doing",
-    //         "improved load performance ~30% through SSR migration and caching layers",
-    //     ],
-    // },
     {
         type: "work",
         company: "Aven Technologies Inc",
