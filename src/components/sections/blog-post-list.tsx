@@ -29,51 +29,50 @@ export function BlogPostList({ posts }: BlogPostListProps) {
             {posts.map((post) => {
                 const isSelected = selectedPostId === post.id;
                 const isAnySelected = selectedPostId !== null;
+                const rowClassName = `group flex flex-col py-8 border-b border-border-subtle last:border-0 transition-colors hover:bg-bg-surface/50 -mx-6 px-6 outline-none ${
+                    isAnySelected ? "cursor-wait opacity-90" : ""
+                }`;
+                const content = (
+                    <div className="flex flex-col gap-2">
+                        <time dateTime={post.publishedAt} className="text-xs text-text-muted font-space">
+                            {new Date(post.publishedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                        </time>
+                        <h2 className="font-jetbrains text-2xl font-bold text-text-primary group-hover:text-accent-primary transition-colors">
+                            {post.title}
+                        </h2>
+                        <p className="text-text-secondary text-base leading-relaxed line-clamp-2 mt-2">
+                            {post.brief}
+                        </p>
+                        <div className="font-jetbrains text-sm text-accent-primary flex items-center gap-2 mt-4 font-medium opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                            {isSelected ? (
+                                <>
+                                    <span className="h-3 w-3 rounded-full border border-accent-primary/40 border-t-accent-primary animate-spin" />
+                                    Opening article...
+                                </>
+                            ) : (
+                                "Read article →"
+                            )}
+                        </div>
+                    </div>
+                );
+
+                if (isAnySelected) {
+                    return (
+                        <div key={post.id} aria-busy={isSelected} aria-disabled className={rowClassName}>
+                            {content}
+                        </div>
+                    );
+                }
 
                 return (
                     <Link
                         key={post.id}
                         href={`/blogs/${post.slug}`}
                         aria-busy={isSelected}
-                        aria-disabled={isAnySelected}
-                        tabIndex={isAnySelected ? -1 : undefined}
-                        onClick={(event) => {
-                            if (isAnySelected) {
-                                event.preventDefault();
-                                return;
-                            }
-                            setSelectedPostId(post.id);
-                        }}
-                        onKeyDown={(event) => {
-                            if (isAnySelected) {
-                                event.preventDefault();
-                            }
-                        }}
-                        className={`group flex flex-col py-8 border-b border-border-subtle last:border-0 transition-colors hover:bg-bg-surface/50 -mx-6 px-6 outline-none ${
-                            isAnySelected ? "cursor-wait opacity-90" : ""
-                        }`}
+                        onClick={() => setSelectedPostId(post.id)}
+                        className={rowClassName}
                     >
-                        <div className="flex flex-col gap-2">
-                            <time dateTime={post.publishedAt} className="text-xs text-text-muted font-space">
-                                {new Date(post.publishedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
-                            </time>
-                            <h2 className="font-jetbrains text-2xl font-bold text-text-primary group-hover:text-accent-primary transition-colors">
-                                {post.title}
-                            </h2>
-                            <p className="text-text-secondary text-base leading-relaxed line-clamp-2 mt-2">
-                                {post.brief}
-                            </p>
-                            <div className="font-jetbrains text-sm text-accent-primary flex items-center gap-2 mt-4 font-medium opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
-                                {isSelected ? (
-                                    <>
-                                        <span className="h-3 w-3 rounded-full border border-accent-primary/40 border-t-accent-primary animate-spin" />
-                                        Opening article...
-                                    </>
-                                ) : (
-                                    "Read article →"
-                                )}
-                            </div>
-                        </div>
+                        {content}
                     </Link>
                 );
             })}
