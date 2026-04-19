@@ -58,7 +58,7 @@ export function BlogPostList({ posts }: BlogPostListProps) {
 
                 if (isAnySelected) {
                     return (
-                        <div key={post.id} aria-busy={isSelected} aria-disabled={true} className={postItemClassName}>
+                        <div key={post.id} aria-busy={isSelected} aria-disabled="true" className={postItemClassName}>
                             {content}
                         </div>
                     );
