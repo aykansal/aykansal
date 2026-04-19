@@ -23,7 +23,7 @@ export function BlogPostList({ posts }: BlogPostListProps) {
 
     return (
         <div className="flex flex-col">
-            <div className="sr-only" role="status" aria-live="polite">
+            <div className="sr-only" role="status" aria-live="assertive">
                 {selectedPostId ? "Opening selected article." : ""}
             </div>
             {posts.map((post) => {
