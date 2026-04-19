@@ -1,7 +1,7 @@
 export default function BlogPostLoading() {
     return (
         <main className="mx-auto max-w-5xl px-6 py-24 min-h-[calc(100vh-56px)] relative">
-            <div className="flex items-center gap-2 text-text-muted mb-12 font-jetbrains text-sm w-fit">
+            <div className="flex items-center gap-2 text-text-muted mb-12 font-jetbrains text-sm w-fit" role="status" aria-live="polite">
                 <span className="h-3 w-3 rounded-full border border-text-muted/40 border-t-text-muted animate-spin" />
                 Loading article...
             </div>

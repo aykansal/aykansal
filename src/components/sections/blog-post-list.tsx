@@ -35,7 +35,14 @@ export function BlogPostList({ posts }: BlogPostListProps) {
                         key={post.id}
                         href={`/blogs/${post.slug}`}
                         aria-busy={isSelected}
+                        aria-disabled={isAnySelected}
+                        tabIndex={isAnySelected ? -1 : undefined}
                         onClick={() => setSelectedPostId(post.id)}
+                        onKeyDown={(event) => {
+                            if (isAnySelected) {
+                                event.preventDefault();
+                            }
+                        }}
                         className={`group flex flex-col py-8 border-b border-border-subtle last:border-0 transition-colors hover:bg-bg-surface/50 -mx-6 px-6 outline-none ${
                             isAnySelected ? "pointer-events-none" : ""
                         }`}
