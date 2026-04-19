@@ -29,7 +29,7 @@ export function BlogPostList({ posts }: BlogPostListProps) {
             {posts.map((post) => {
                 const isSelected = selectedPostId === post.id;
                 const isAnySelected = selectedPostId !== null;
-                const rowClassName = `group flex flex-col py-8 border-b border-border-subtle last:border-0 transition-colors hover:bg-bg-surface/50 -mx-6 px-6 outline-none ${
+                const postItemClassName = `group flex flex-col py-8 border-b border-border-subtle last:border-0 transition-colors hover:bg-bg-surface/50 -mx-6 px-6 outline-none ${
                     isAnySelected ? "cursor-wait opacity-90" : ""
                 }`;
                 const content = (
@@ -58,7 +58,7 @@ export function BlogPostList({ posts }: BlogPostListProps) {
 
                 if (isAnySelected) {
                     return (
-                        <div key={post.id} aria-busy={isSelected} aria-disabled className={rowClassName}>
+                        <div key={post.id} aria-busy={isSelected} aria-disabled={true} className={postItemClassName}>
                             {content}
                         </div>
                     );
@@ -70,7 +70,7 @@ export function BlogPostList({ posts }: BlogPostListProps) {
                         href={`/blogs/${post.slug}`}
                         aria-busy={isSelected}
                         onClick={() => setSelectedPostId(post.id)}
-                        className={rowClassName}
+                        className={postItemClassName}
                     >
                         {content}
                     </Link>
