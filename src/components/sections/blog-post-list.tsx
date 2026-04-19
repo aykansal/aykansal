@@ -23,6 +23,9 @@ export function BlogPostList({ posts }: BlogPostListProps) {
 
     return (
         <div className="flex flex-col">
+            <div className="sr-only" role="status" aria-live="polite">
+                {selectedPostId ? "Opening selected article." : ""}
+            </div>
             {posts.map((post) => {
                 const isSelected = selectedPostId === post.id;
                 const isAnySelected = selectedPostId !== null;
@@ -58,9 +61,6 @@ export function BlogPostList({ posts }: BlogPostListProps) {
                                 )}
                             </div>
                         </div>
-                        {isAnySelected && !isSelected && (
-                            <span className="sr-only">Loading selected article</span>
-                        )}
                     </Link>
                 );
             })}
