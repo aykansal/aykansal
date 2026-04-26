@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { formatCompactDate, normalizeTimelineEvents, type TimelineEvent, type TimelineEventType, type TimelineYearGroup } from "@/content/timeline";
@@ -70,10 +70,10 @@ export function TimelineView({ events }: { events: TimelineEvent[] }) {
     const [activeTypes, setActiveTypes] = useState<Set<TimelineEventType>>(new Set(TYPE_ORDER));
     const isMobile = useIsMobile();
     const [selectedEvent, setSelectedEvent] = useState<TimelineEvent | null>(null);
-    const scrollTargetRef = useRef<HTMLDivElement>(null);
     const viewportRef = useRef<HTMLDivElement>(null);
     const trackRef = useRef<HTMLDivElement>(null);
     const [maxTranslateX, setMaxTranslateX] = useState(0);
+    const [desktopProgress, setDesktopProgress] = useState(0);
 
     const filteredEvents = useMemo(() => {
         return events.filter((event) => activeTypes.has(event.type));
@@ -84,11 +84,7 @@ export function TimelineView({ events }: { events: TimelineEvent[] }) {
     const [activeMonthKey, setActiveMonthKey] = useState<string>(barPoints[0]?.key ?? "");
     const [isScrubbing, setIsScrubbing] = useState(false);
     const barRailRef = useRef<HTMLDivElement>(null);
-    const { scrollYProgress } = useScroll({
-        target: scrollTargetRef,
-        offset: ["start start", "end end"],
-    });
-    const trackX = useTransform(scrollYProgress, (value) => -value * maxTranslateX);
+    const trackX = -(desktopProgress * maxTranslateX);
 
     const toggleType = (type: TimelineEventType) => {
         setActiveTypes((prev) => {
@@ -105,6 +101,7 @@ export function TimelineView({ events }: { events: TimelineEvent[] }) {
     useEffect(() => {
         if (isMobile || prefersReducedMotion) {
             setMaxTranslateX(0);
+            setDesktopProgress(0);
             return;
         }
 
@@ -122,18 +119,27 @@ export function TimelineView({ events }: { events: TimelineEvent[] }) {
     }, [groups.length, isMobile, prefersReducedMotion]);
 
     useEffect(() => {
+        if (isMobile || prefersReducedMotion) return;
+        const prev = document.body.style.overflow;
+        const prevHtml = document.documentElement.style.overflow;
+        document.body.style.overflow = "hidden";
+        document.documentElement.style.overflow = "hidden";
+        return () => {
+            document.body.style.overflow = prev;
+            document.documentElement.style.overflow = prevHtml;
+        };
+    }, [isMobile, prefersReducedMotion]);
+
+    useEffect(() => {
         setActiveMonthKey(barPoints[0]?.key ?? "");
     }, [barPoints]);
 
     useEffect(() => {
         if (isScrubbing || barPoints.length === 0 || prefersReducedMotion) return;
-        const unsubscribe = scrollYProgress.on("change", (value) => {
-            const index = Math.round(value * (barPoints.length - 1));
-            const next = barPoints[Math.max(0, Math.min(index, barPoints.length - 1))];
-            if (next) setActiveMonthKey(next.key);
-        });
-        return unsubscribe;
-    }, [barPoints, isScrubbing, scrollYProgress, prefersReducedMotion]);
+        const index = Math.round(desktopProgress * (barPoints.length - 1));
+        const next = barPoints[Math.max(0, Math.min(index, barPoints.length - 1))];
+        if (next) setActiveMonthKey(next.key);
+    }, [barPoints, desktopProgress, isScrubbing, prefersReducedMotion]);
 
     const seekToMonth = (monthKey: string) => {
         const point = barPoints.find((entry) => entry.key === monthKey);
@@ -145,12 +151,7 @@ export function TimelineView({ events }: { events: TimelineEvent[] }) {
             card?.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "start" });
             return;
         }
-
-        const target = scrollTargetRef.current;
-        if (!target) return;
-        const absoluteTop = window.scrollY + target.getBoundingClientRect().top;
-        const travelSpace = Math.max(1, target.offsetHeight - window.innerHeight);
-        window.scrollTo({ top: absoluteTop + travelSpace * point.progress, behavior: "smooth" });
+        setDesktopProgress(point.progress);
     };
 
     const handleScrub = (clientX: number) => {
@@ -206,9 +207,18 @@ export function TimelineView({ events }: { events: TimelineEvent[] }) {
             ) : (
                 <>
                     {!useStackedLayout && (
-                        <div ref={scrollTargetRef} className="relative hidden min-[900px]:block" style={{ height: "280vh" }}>
-                            <div ref={viewportRef} className="sticky top-[76px] h-[calc(100vh-104px)] overflow-hidden">
-                                <motion.div ref={trackRef} style={{ x: trackX }} className="flex h-full items-start gap-4">
+                        <div
+                            ref={viewportRef}
+                            className="hidden h-[calc(100vh-220px)] min-h-[420px] overflow-hidden min-[900px]:block"
+                            onWheel={(event) => {
+                                if (maxTranslateX <= 0) return;
+                                event.preventDefault();
+                                const delta = event.deltaY + event.deltaX;
+                                const next = desktopProgress + (delta / Math.max(maxTranslateX, 1));
+                                setDesktopProgress(Math.max(0, Math.min(1, next)));
+                            }}
+                        >
+                            <motion.div ref={trackRef} style={{ x: trackX }} className="flex h-full items-start gap-4">
                                     {groups.map((group) => (
                                         <article key={group.year} className="h-full w-[520px] shrink-0 border border-border-subtle bg-bg-primary/60 p-4">
                                             <div className="flex items-center justify-between border-b border-border-subtle pb-3">
@@ -229,8 +239,7 @@ export function TimelineView({ events }: { events: TimelineEvent[] }) {
                                             </div>
                                         </article>
                                     ))}
-                                </motion.div>
-                            </div>
+                            </motion.div>
                         </div>
                     )}
 
@@ -324,8 +333,8 @@ export function TimelineView({ events }: { events: TimelineEvent[] }) {
                                         >
                                             <span
                                                 className={cn(
-                                                    "absolute -top-5 left-1/2 -translate-x-1/2 font-jetbrains text-[10px] uppercase tracking-wider",
-                                                    isActive ? "text-accent-primary" : "text-transparent group-hover:text-text-muted",
+                                                    "absolute inset-0 flex items-center justify-center font-jetbrains text-[10px] uppercase tracking-wider",
+                                                    isActive ? "text-accent-primary" : "text-transparent",
                                                 )}
                                             >
                                                 {point.monthLabel}
