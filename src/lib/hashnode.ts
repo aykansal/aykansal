@@ -155,3 +155,61 @@ export async function fetchHashnodePost(slug: string): Promise<HashnodePost | nu
 
     return result.data?.publication?.post || null;
 }
+
+export async function fetchHashnodePostById(id: string): Promise<HashnodePost | null> {
+    const query = `
+        query GetPostById($host: String!, $id: ObjectId!) {
+            publication(host: $host) {
+                post(id: $id) {
+                    id
+                    title
+                    slug
+                    brief
+                    publishedAt
+                    readTimeInMinutes
+                    coverImage {
+                        url
+                    }
+                    content {
+                        html
+                    }
+                    features {
+                        tableOfContents {
+                            items {
+                                id
+                                level
+                                slug
+                                title
+                                parentId
+                            }
+                        }
+                    }
+                    tags {
+                        name
+                    }
+                }
+            }
+        }
+    `;
+
+    const variables = { host: PUBLICATION_HOST, id };
+
+    const response = await fetch(GQL_ENDPOINT, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            ...(process.env.HASHNODE_TOKEN ? { Authorization: process.env.HASHNODE_TOKEN } : {}),
+        },
+        body: JSON.stringify({ query, variables }),
+        next: { revalidate: 3600 },
+    });
+
+    const result = await response.json();
+
+    if (result.errors) {
+        console.error("Hashnode GraphQL errors:", result.errors);
+        throw new Error(`Failed to fetch post id: ${id} from Hashnode`);
+    }
+
+    return result.data?.publication?.post || null;
+}

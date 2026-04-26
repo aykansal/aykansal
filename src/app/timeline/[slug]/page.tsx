@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getTimelineEventBySlug } from "@/content/timeline";
+import { getTimelineDetailContent } from "@/lib/timeline-detail";
 
 type Props = {
     params: Promise<{ slug: string }>;
@@ -25,6 +26,7 @@ export default async function TimelineDetailPage({ params }: Props) {
     const { slug } = await params;
     const event = getTimelineEventBySlug(slug);
     if (!event) notFound();
+    const detail = await getTimelineDetailContent(event);
 
     return (
         <main className="mx-auto min-h-[calc(100vh-56px)] w-full max-w-3xl px-6 py-16">
@@ -48,18 +50,18 @@ export default async function TimelineDetailPage({ params }: Props) {
                     )}
                 </div>
                 <h1 className="mt-4 font-jetbrains text-4xl font-bold leading-tight text-text-primary">
-                    {event.title}
+                    {detail.title}
                 </h1>
                 <p className="mt-4 font-space text-[16px] leading-relaxed text-text-secondary">
-                    {event.summary}
+                    {detail.brief}
                 </p>
             </header>
 
             <article className="prose mt-8 max-w-none prose-headings:font-jetbrains prose-p:font-space prose-a:text-accent-primary prose-strong:text-text-primary dark:prose-invert text-text-secondary">
-                {event.fallback?.html ? (
-                    <div dangerouslySetInnerHTML={{ __html: event.fallback.html }} />
+                {detail.html ? (
+                    <div dangerouslySetInnerHTML={{ __html: detail.html }} />
                 ) : (
-                    <p>{event.fallback?.brief ?? event.summary}</p>
+                    <p>{detail.brief}</p>
                 )}
             </article>
         </main>

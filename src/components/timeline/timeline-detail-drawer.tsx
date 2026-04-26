@@ -1,7 +1,9 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { formatCompactDate, type TimelineEvent } from "@/content/timeline";
+import type { TimelineDetailContent } from "@/lib/timeline-detail";
 
 interface TimelineDetailDrawerProps {
     event: TimelineEvent;
@@ -9,13 +11,45 @@ interface TimelineDetailDrawerProps {
 }
 
 export function TimelineDetailDrawer({ event, onClose }: TimelineDetailDrawerProps) {
+    const [detail, setDetail] = useState<TimelineDetailContent | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        let active = true;
+        const load = async () => {
+            setLoading(true);
+            try {
+                const response = await fetch(`/api/timeline/${event.slug}`);
+                if (!response.ok) throw new Error("Failed to load timeline detail");
+                const data = (await response.json()) as TimelineDetailContent;
+                if (active) setDetail(data);
+            } catch (_error) {
+                if (active) {
+                    setDetail({
+                        source: "fallback",
+                        title: event.title,
+                        brief: event.fallback?.brief ?? event.summary,
+                        html: event.fallback?.html,
+                    });
+                }
+            } finally {
+                if (active) setLoading(false);
+            }
+        };
+
+        load();
+        return () => {
+            active = false;
+        };
+    }, [event]);
+
     return (
         <div className="fixed inset-0 z-50 hidden min-[640px]:block" role="dialog" aria-modal="true" aria-label={event.title}>
             <button type="button" className="absolute inset-0 bg-black/45" onClick={onClose} aria-label="Close timeline detail" />
             <aside className="absolute right-0 top-0 h-full w-full max-w-[640px] overflow-y-auto border-l border-border-subtle bg-bg-primary p-6">
                 <div className="flex items-start justify-between gap-3">
                     <h3 className="font-jetbrains text-[24px] font-semibold leading-tight text-text-primary">
-                        {event.title}
+                        {detail?.title ?? event.title}
                     </h3>
                     <button
                         type="button"
@@ -42,9 +76,22 @@ export function TimelineDetailDrawer({ event, onClose }: TimelineDetailDrawerPro
                     )}
                 </div>
 
-                <p className="mt-6 font-space text-[15px] leading-relaxed text-text-secondary">
-                    {event.fallback?.brief ?? event.summary}
-                </p>
+                {loading ? (
+                    <p className="mt-6 font-space text-[15px] leading-relaxed text-text-muted">
+                        Loading details...
+                    </p>
+                ) : (
+                    <div className="mt-6">
+                        <p className="font-space text-[15px] leading-relaxed text-text-secondary">
+                            {detail?.brief ?? event.fallback?.brief ?? event.summary}
+                        </p>
+                        {detail?.source === "fallback" && (
+                            <p className="mt-3 font-jetbrains text-[10px] uppercase tracking-wider text-text-muted">
+                                Showing local fallback content
+                            </p>
+                        )}
+                    </div>
+                )}
 
                 <div className="mt-8 flex items-center gap-3">
                     <Link
