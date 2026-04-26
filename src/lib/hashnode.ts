@@ -77,7 +77,7 @@ export async function fetchHashnodePosts(first: number = 10): Promise<{ publicat
             ...(process.env.HASHNODE_TOKEN ? { 'Authorization': process.env.HASHNODE_TOKEN } : {})
         },
         body: JSON.stringify({ query, variables }),
-        next: { revalidate: 3600 } // Cache for 1 hour
+        next: { revalidate: 60 } // Cache for 60 seconds
     });
 
     const result = await response.json();
@@ -93,7 +93,7 @@ export async function fetchHashnodePosts(first: number = 10): Promise<{ publicat
         about: result.data.publication.about
     } : null;
 
-    const posts = result.data?.publication?.posts?.edges?.map((edge: any) => edge.node) || [];
+    const posts = result.data?.publication?.posts?.edges?.map((edge: { node: HashnodePost }) => edge.node) || [];
 
     return { publication: publicationInfo, posts };
 }
@@ -143,7 +143,7 @@ export async function fetchHashnodePost(slug: string): Promise<HashnodePost | nu
             ...(process.env.HASHNODE_TOKEN ? { 'Authorization': process.env.HASHNODE_TOKEN } : {})
         },
         body: JSON.stringify({ query, variables }),
-        next: { revalidate: 3600 }
+        next: { revalidate: 60 }
     });
 
     const result = await response.json();
@@ -199,7 +199,7 @@ export async function fetchHashnodePostById(id: string): Promise<HashnodePost | 
             ...(process.env.HASHNODE_TOKEN ? { Authorization: process.env.HASHNODE_TOKEN } : {}),
         },
         body: JSON.stringify({ query, variables }),
-        next: { revalidate: 3600 },
+        next: { revalidate: 60 },
     });
 
     const result = await response.json();

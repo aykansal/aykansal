@@ -54,3 +54,4 @@ skills-lock.json
 *.tbd.*
 .env.local
 .cursorignore
+.agents

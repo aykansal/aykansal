@@ -11,8 +11,7 @@ export interface TimelineDate {
 export interface TimelineEvent {
     id: string;
     slug: string;
-    hashnodePostId?: string;
-    hashnodeSlug?: string;
+    hashnodePostId: string;
     year: number;
     type: TimelineEventType;
     status?: TimelineEventStatus;
@@ -40,6 +39,7 @@ export const timelineEvents: TimelineEvent[] = [
     {
         id: "hack-2026-delhi-builder-jam",
         slug: "delhi-builder-jam-2026",
+        hashnodePostId: "69ee7f173d6a492cdd516ee3",
         year: 2026,
         type: "hackathon",
         featured: true,
@@ -51,6 +51,7 @@ export const timelineEvents: TimelineEvent[] = [
     {
         id: "award-2026-campus-showcase",
         slug: "campus-showcase-award-2026",
+        hashnodePostId: "campus-showcase-award-2026-post-id",
         year: 2026,
         type: "award",
         title: "Best Product Story Award",
@@ -60,11 +61,11 @@ export const timelineEvents: TimelineEvent[] = [
     {
         id: "project-2025-tryanon-public-beta",
         slug: "tryanon-public-beta-2025",
+        hashnodePostId: "683f4ff6fb0f67c4d03f684f",
         year: 2025,
         type: "project",
         featured: true,
         status: "ONGOING",
-        hashnodeSlug: "how-we-built-tryanon-beta",
         title: "Tryanon Public Beta",
         summary: "Launched beta for AI-assisted code workflows with iterative product feedback loops.",
         start: { month: 11, year: 2025 },
@@ -72,6 +73,7 @@ export const timelineEvents: TimelineEvent[] = [
     {
         id: "hack-2025-multi-agent-sprint",
         slug: "multi-agent-sprint-hackathon-2025",
+        hashnodePostId: "multi-agent-sprint-hackathon-2025-post-id",
         year: 2025,
         type: "hackathon",
         title: "Multi-Agent Sprint",
@@ -82,6 +84,7 @@ export const timelineEvents: TimelineEvent[] = [
     {
         id: "project-2024-portfolio-v5",
         slug: "portfolio-v5-rebuild-2024",
+        hashnodePostId: "portfolio-v5-rebuild-2024-post-id",
         year: 2024,
         type: "project",
         featured: true,
@@ -92,6 +95,7 @@ export const timelineEvents: TimelineEvent[] = [
     {
         id: "award-2024-open-source-campus",
         slug: "open-source-campus-award-2024",
+        hashnodePostId: "open-source-campus-award-2024-post-id",
         year: 2024,
         type: "award",
         title: "Open Source Contribution Recognition",
