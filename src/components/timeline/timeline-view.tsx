@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { formatCompactDate, normalizeTimelineEvents, type TimelineEvent, type TimelineEventType, type TimelineYearGroup } from "@/content/timeline";
@@ -66,6 +66,7 @@ function TimelineCompactCard({ event, onOpen }: { event: TimelineEvent; onOpen: 
 
 export function TimelineView({ events }: { events: TimelineEvent[] }) {
     const router = useRouter();
+    const prefersReducedMotion = useReducedMotion();
     const [activeTypes, setActiveTypes] = useState<Set<TimelineEventType>>(new Set(TYPE_ORDER));
     const isMobile = useIsMobile();
     const [selectedEvent, setSelectedEvent] = useState<TimelineEvent | null>(null);
@@ -102,7 +103,7 @@ export function TimelineView({ events }: { events: TimelineEvent[] }) {
     };
 
     useEffect(() => {
-        if (isMobile) {
+        if (isMobile || prefersReducedMotion) {
             setMaxTranslateX(0);
             return;
         }
@@ -118,30 +119,30 @@ export function TimelineView({ events }: { events: TimelineEvent[] }) {
         measure();
         window.addEventListener("resize", measure);
         return () => window.removeEventListener("resize", measure);
-    }, [groups.length, isMobile]);
+    }, [groups.length, isMobile, prefersReducedMotion]);
 
     useEffect(() => {
         setActiveMonthKey(barPoints[0]?.key ?? "");
     }, [barPoints]);
 
     useEffect(() => {
-        if (isScrubbing || barPoints.length === 0) return;
+        if (isScrubbing || barPoints.length === 0 || prefersReducedMotion) return;
         const unsubscribe = scrollYProgress.on("change", (value) => {
             const index = Math.round(value * (barPoints.length - 1));
             const next = barPoints[Math.max(0, Math.min(index, barPoints.length - 1))];
             if (next) setActiveMonthKey(next.key);
         });
         return unsubscribe;
-    }, [barPoints, isScrubbing, scrollYProgress]);
+    }, [barPoints, isScrubbing, scrollYProgress, prefersReducedMotion]);
 
     const seekToMonth = (monthKey: string) => {
         const point = barPoints.find((entry) => entry.key === monthKey);
         if (!point) return;
         setActiveMonthKey(monthKey);
 
-        if (isMobile) {
+        if (isMobile || prefersReducedMotion) {
             const card = document.getElementById(`timeline-event-${point.eventId}`);
-            card?.scrollIntoView({ behavior: "smooth", block: "start" });
+            card?.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "start" });
             return;
         }
 
@@ -163,6 +164,7 @@ export function TimelineView({ events }: { events: TimelineEvent[] }) {
     };
 
     const activeYear = barPoints.find((point) => point.key === activeMonthKey)?.year;
+    const useStackedLayout = isMobile || prefersReducedMotion;
     const openEvent = (event: TimelineEvent) => {
         if (isMobile) {
             router.push(`/timeline/${event.slug}`);
@@ -203,7 +205,7 @@ export function TimelineView({ events }: { events: TimelineEvent[] }) {
                 </div>
             ) : (
                 <>
-                    {!isMobile && (
+                    {!useStackedLayout && (
                         <div ref={scrollTargetRef} className="relative hidden min-[900px]:block" style={{ height: "280vh" }}>
                             <div ref={viewportRef} className="sticky top-[76px] h-[calc(100vh-104px)] overflow-hidden">
                                 <motion.div ref={trackRef} style={{ x: trackX }} className="flex h-full items-start gap-4">
@@ -232,7 +234,7 @@ export function TimelineView({ events }: { events: TimelineEvent[] }) {
                         </div>
                     )}
 
-                    <div className={cn("flex flex-col gap-6", !isMobile && "min-[900px]:hidden")}>
+                    <div className={cn("flex flex-col gap-6", !useStackedLayout && "min-[900px]:hidden")}>
                         {groups.map((group) => (
                             <article key={group.year} className="border border-border-subtle bg-bg-primary/60 p-4">
                                 <div className="flex items-center justify-between border-b border-border-subtle pb-3">
@@ -301,17 +303,23 @@ export function TimelineView({ events }: { events: TimelineEvent[] }) {
                                     const isActive = point.key === activeMonthKey;
                                     const isCurrentYear = point.year === activeYear;
                                     const baseHeight = 10 + ((index % 4) * 4);
+                                    const height = prefersReducedMotion
+                                        ? "16px"
+                                        : isActive
+                                            ? `${baseHeight + 16}px`
+                                            : `${baseHeight}px`;
                                     return (
                                         <button
                                             key={point.key}
                                             type="button"
                                             onClick={() => seekToMonth(point.key)}
                                             className={cn(
-                                                "group relative flex-1 border border-border-subtle transition-all duration-200",
+                                                "group relative flex-1 border border-border-subtle",
+                                                !prefersReducedMotion && "transition-all duration-200",
                                                 isCurrentYear ? "bg-bg-secondary" : "bg-bg-tertiary/50",
                                                 isActive && "border-accent-primary bg-accent-primary/20",
                                             )}
-                                            style={{ height: isActive ? `${baseHeight + 16}px` : `${baseHeight}px` }}
+                                            style={{ height }}
                                             aria-label={`${point.monthLabel} ${point.year}`}
                                         >
                                             <span
