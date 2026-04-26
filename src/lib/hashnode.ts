@@ -158,41 +158,39 @@ export async function fetchHashnodePost(slug: string): Promise<HashnodePost | nu
 
 export async function fetchHashnodePostById(id: string): Promise<HashnodePost | null> {
     const query = `
-        query GetPostById($host: String!, $id: ObjectId!) {
-            publication(host: $host) {
-                post(id: $id) {
-                    id
-                    title
-                    slug
-                    brief
-                    publishedAt
-                    readTimeInMinutes
-                    coverImage {
-                        url
-                    }
-                    content {
-                        html
-                    }
-                    features {
-                        tableOfContents {
-                            items {
-                                id
-                                level
-                                slug
-                                title
-                                parentId
-                            }
+        query GetPostById($id: ID!) {
+            post(id: $id) {
+                id
+                title
+                slug
+                brief
+                publishedAt
+                readTimeInMinutes
+                coverImage {
+                    url
+                }
+                content {
+                    html
+                }
+                features {
+                    tableOfContents {
+                        items {
+                            id
+                            level
+                            slug
+                            title
+                            parentId
                         }
                     }
-                    tags {
-                        name
-                    }
+                }
+                tags {
+                    name
                 }
             }
         }
     `;
 
-    const variables = { host: PUBLICATION_HOST, id };
+    const variables = { id };
 
     const response = await fetch(GQL_ENDPOINT, {
         method: "POST",
@@ -206,10 +204,14 @@ export async function fetchHashnodePostById(id: string): Promise<HashnodePost | 
 
     const result = await response.json();
 
-    if (result.errors) {
+    if (result.errors?.length) {
+        const isNotFound = result.errors.some((error: { extensions?: { code?: string } }) => error.extensions?.code === "NOT_FOUND");
+        if (isNotFound) {
+            return null;
+        }
         console.error("Hashnode GraphQL errors:", result.errors);
         throw new Error(`Failed to fetch post id: ${id} from Hashnode`);
     }
 
-    return result.data?.publication?.post || null;
+    return result.data?.post || null;
 }

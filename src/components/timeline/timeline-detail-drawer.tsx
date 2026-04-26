@@ -82,9 +82,16 @@ export function TimelineDetailDrawer({ event, onClose }: TimelineDetailDrawerPro
                     </p>
                 ) : (
                     <div className="mt-6">
-                        <p className="font-space text-[15px] leading-relaxed text-text-secondary">
-                            {detail?.brief ?? event.fallback?.brief ?? event.summary}
-                        </p>
+                        {detail?.html ? (
+                            <article
+                                className="prose max-w-none prose-headings:font-jetbrains prose-p:font-space prose-a:text-accent-primary prose-strong:text-text-primary dark:prose-invert text-text-secondary"
+                                dangerouslySetInnerHTML={{ __html: detail.html }}
+                            />
+                        ) : (
+                            <p className="font-space text-[15px] leading-relaxed text-text-secondary">
+                                {detail?.brief ?? event.fallback?.brief ?? event.summary}
+                            </p>
+                        )}
                         {detail?.source === "fallback" && (
                             <p className="mt-3 font-jetbrains text-[10px] uppercase tracking-wider text-text-muted">
                                 Showing local fallback content

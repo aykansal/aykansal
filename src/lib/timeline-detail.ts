@@ -1,4 +1,4 @@
-import { fetchHashnodePost, fetchHashnodePostById, type HashnodePost } from "@/lib/hashnode";
+import { fetchHashnodePostById, type HashnodePost } from "@/lib/hashnode";
 import type { TimelineEvent } from "@/content/timeline";
 
 export interface TimelineDetailContent {
@@ -32,7 +32,10 @@ async function fetchWithRetry(event: TimelineEvent, attempts: number): Promise<H
         try {
             const post = await fetchTimelineHashnodePost(event);
             if (post) return post;
-        } catch (_error) {
+        } catch (error) {
+            if (process.env.NODE_ENV !== "production") {
+                console.warn(`[timeline] Failed to fetch Hashnode post for ${event.id} (attempt ${i + 1}/${attempts})`, error);
+            }
             // fallback flow handles failures after retries
         }
     }
@@ -40,12 +43,10 @@ async function fetchWithRetry(event: TimelineEvent, attempts: number): Promise<H
 }
 
 async function fetchTimelineHashnodePost(event: TimelineEvent): Promise<HashnodePost | null> {
-    if (event.hashnodePostId) {
-        const byId = await fetchHashnodePostById(event.hashnodePostId);
-        if (byId) return byId;
+    const hashnodePostId = event.hashnodePostId.trim();
+    if (!hashnodePostId) {
+        return null;
     }
-    if (event.hashnodeSlug) {
-        return fetchHashnodePost(event.hashnodeSlug);
-    }
-    return null;
+    const byId = await fetchHashnodePostById(hashnodePostId);
+    return byId;
 }
