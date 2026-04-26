@@ -2,9 +2,11 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { formatCompactDate, normalizeTimelineEvents, type TimelineEvent, type TimelineEventType, type TimelineYearGroup } from "@/content/timeline";
 import { useIsMobile } from "@/lib/use-is-mobile";
+import { TimelineDetailDrawer } from "@/components/timeline/timeline-detail-drawer";
 
 const TYPE_ORDER: TimelineEventType[] = ["hackathon", "project", "award"];
 const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"] as const;
@@ -21,9 +23,13 @@ const TYPE_STYLES: Record<TimelineEvent["type"], string> = {
     award: "bg-status-warning/10 text-status-warning",
 };
 
-function TimelineCompactCard({ event }: { event: TimelineEvent }) {
+function TimelineCompactCard({ event, onOpen }: { event: TimelineEvent; onOpen: (event: TimelineEvent) => void }) {
     return (
-        <article className="group border border-border-default bg-bg-secondary p-4 transition-colors duration-200 hover:border-border-strong">
+        <button
+            type="button"
+            onClick={() => onOpen(event)}
+            className="group w-full border border-border-default bg-bg-secondary p-4 text-left transition-colors duration-200 hover:border-border-strong"
+        >
             <div className="flex items-start justify-between gap-2">
                 <div className="flex items-center gap-2">
                     <span className={cn("px-1.5 py-0.5 font-jetbrains text-[10px] uppercase tracking-wider", TYPE_STYLES[event.type])}>
@@ -54,13 +60,15 @@ function TimelineCompactCard({ event }: { event: TimelineEvent }) {
             <p className="mt-2 line-clamp-1 font-space text-[14px] leading-normal text-text-secondary">
                 {event.summary}
             </p>
-        </article>
+        </button>
     );
 }
 
 export function TimelineView({ events }: { events: TimelineEvent[] }) {
+    const router = useRouter();
     const [activeTypes, setActiveTypes] = useState<Set<TimelineEventType>>(new Set(TYPE_ORDER));
     const isMobile = useIsMobile();
+    const [selectedEvent, setSelectedEvent] = useState<TimelineEvent | null>(null);
     const scrollTargetRef = useRef<HTMLDivElement>(null);
     const viewportRef = useRef<HTMLDivElement>(null);
     const trackRef = useRef<HTMLDivElement>(null);
@@ -155,6 +163,13 @@ export function TimelineView({ events }: { events: TimelineEvent[] }) {
     };
 
     const activeYear = barPoints.find((point) => point.key === activeMonthKey)?.year;
+    const openEvent = (event: TimelineEvent) => {
+        if (isMobile) {
+            router.push(`/timeline/${event.slug}`);
+            return;
+        }
+        setSelectedEvent(event);
+    };
 
     return (
         <section className="mt-10" aria-label="Builder timeline by year">
@@ -206,7 +221,7 @@ export function TimelineView({ events }: { events: TimelineEvent[] }) {
                                             <div className="mt-4 flex max-h-[calc(100%-48px)] flex-col gap-3 overflow-auto pr-1">
                                                 {group.events.map((event) => (
                                                     <div id={`timeline-event-${event.id}`} key={event.id}>
-                                                        <TimelineCompactCard event={event} />
+                                                        <TimelineCompactCard event={event} onOpen={openEvent} />
                                                     </div>
                                                 ))}
                                             </div>
@@ -232,7 +247,7 @@ export function TimelineView({ events }: { events: TimelineEvent[] }) {
                                 <div className="mt-4 grid grid-cols-1 gap-3">
                                     {group.events.map((event) => (
                                         <div id={`timeline-event-${event.id}`} key={event.id}>
-                                            <TimelineCompactCard event={event} />
+                                            <TimelineCompactCard event={event} onOpen={openEvent} />
                                         </div>
                                     ))}
                                 </div>
@@ -314,6 +329,13 @@ export function TimelineView({ events }: { events: TimelineEvent[] }) {
                         </div>
                     )}
                 </>
+            )}
+
+            {selectedEvent && (
+                <TimelineDetailDrawer
+                    event={selectedEvent}
+                    onClose={() => setSelectedEvent(null)}
+                />
             )}
         </section>
     );

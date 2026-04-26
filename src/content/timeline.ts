@@ -179,3 +179,7 @@ export function formatCompactDate(event: TimelineEvent): string {
 
     return `${startMonth} ${startDay}-${endMonth} ${endDay}`;
 }
+
+export function getTimelineEventBySlug(slug: string): TimelineEvent | null {
+    return timelineEvents.find((event) => event.slug === slug) ?? null;
+}
