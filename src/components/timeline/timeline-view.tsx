@@ -221,16 +221,7 @@ export function TimelineView({ events }: { events: TimelineEvent[] }) {
                             <motion.div ref={trackRef} style={{ x: trackX }} className="flex h-full items-start gap-4">
                                     {groups.map((group) => (
                                         <article key={group.year} className="h-full w-[520px] shrink-0 border border-border-subtle bg-bg-primary/60 p-4">
-                                            <div className="flex items-center justify-between border-b border-border-subtle pb-3">
-                                                <h2 className="font-jetbrains text-[22px] font-semibold tracking-wide text-text-primary">
-                                                    {group.year}
-                                                </h2>
-                                                <span className="font-jetbrains text-[10px] uppercase tracking-wider text-text-muted">
-                                                    {group.events.length} events
-                                                </span>
-                                            </div>
-
-                                            <div className="mt-4 flex max-h-[calc(100%-48px)] flex-col gap-3 overflow-auto pr-1">
+                                            <div className="flex h-full flex-col gap-3 overflow-auto pr-1">
                                                 {group.events.map((event) => (
                                                     <div id={`timeline-event-${event.id}`} key={event.id}>
                                                         <TimelineCompactCard event={event} onOpen={openEvent} />
