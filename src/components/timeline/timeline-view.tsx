@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { formatCompactDate, normalizeTimelineEvents, type TimelineEvent, type TimelineEventType } from "@/content/timeline";
+import { useIsMobile } from "@/lib/use-is-mobile";
 
 const TYPE_ORDER: TimelineEventType[] = ["hackathon", "project", "award"];
 
@@ -58,6 +59,7 @@ function TimelineCompactCard({ event }: { event: TimelineEvent }) {
 
 export function TimelineView({ events }: { events: TimelineEvent[] }) {
     const [activeTypes, setActiveTypes] = useState<Set<TimelineEventType>>(new Set(TYPE_ORDER));
+    const isMobile = useIsMobile();
     const scrollTargetRef = useRef<HTMLDivElement>(null);
     const viewportRef = useRef<HTMLDivElement>(null);
     const trackRef = useRef<HTMLDivElement>(null);
@@ -87,6 +89,11 @@ export function TimelineView({ events }: { events: TimelineEvent[] }) {
     };
 
     useEffect(() => {
+        if (isMobile) {
+            setMaxTranslateX(0);
+            return;
+        }
+
         const measure = () => {
             const viewport = viewportRef.current;
             const track = trackRef.current;
@@ -98,7 +105,7 @@ export function TimelineView({ events }: { events: TimelineEvent[] }) {
         measure();
         window.addEventListener("resize", measure);
         return () => window.removeEventListener("resize", measure);
-    }, [groups.length]);
+    }, [groups.length, isMobile]);
 
     return (
         <section className="mt-10" aria-label="Builder timeline by year">
@@ -132,32 +139,34 @@ export function TimelineView({ events }: { events: TimelineEvent[] }) {
                 </div>
             ) : (
                 <>
-                    <div ref={scrollTargetRef} className="relative hidden min-[900px]:block" style={{ height: "280vh" }}>
-                        <div ref={viewportRef} className="sticky top-[76px] h-[calc(100vh-104px)] overflow-hidden">
-                            <motion.div ref={trackRef} style={{ x: trackX }} className="flex h-full items-start gap-4">
-                                {groups.map((group) => (
-                                    <article key={group.year} className="h-full w-[520px] shrink-0 border border-border-subtle bg-bg-primary/60 p-4">
-                                        <div className="flex items-center justify-between border-b border-border-subtle pb-3">
-                                            <h2 className="font-jetbrains text-[22px] font-semibold tracking-wide text-text-primary">
-                                                {group.year}
-                                            </h2>
-                                            <span className="font-jetbrains text-[10px] uppercase tracking-wider text-text-muted">
-                                                {group.events.length} events
-                                            </span>
-                                        </div>
+                    {!isMobile && (
+                        <div ref={scrollTargetRef} className="relative hidden min-[900px]:block" style={{ height: "280vh" }}>
+                            <div ref={viewportRef} className="sticky top-[76px] h-[calc(100vh-104px)] overflow-hidden">
+                                <motion.div ref={trackRef} style={{ x: trackX }} className="flex h-full items-start gap-4">
+                                    {groups.map((group) => (
+                                        <article key={group.year} className="h-full w-[520px] shrink-0 border border-border-subtle bg-bg-primary/60 p-4">
+                                            <div className="flex items-center justify-between border-b border-border-subtle pb-3">
+                                                <h2 className="font-jetbrains text-[22px] font-semibold tracking-wide text-text-primary">
+                                                    {group.year}
+                                                </h2>
+                                                <span className="font-jetbrains text-[10px] uppercase tracking-wider text-text-muted">
+                                                    {group.events.length} events
+                                                </span>
+                                            </div>
 
-                                        <div className="mt-4 flex max-h-[calc(100%-48px)] flex-col gap-3 overflow-auto pr-1">
-                                            {group.events.map((event) => (
-                                                <TimelineCompactCard key={event.id} event={event} />
-                                            ))}
-                                        </div>
-                                    </article>
-                                ))}
-                            </motion.div>
+                                            <div className="mt-4 flex max-h-[calc(100%-48px)] flex-col gap-3 overflow-auto pr-1">
+                                                {group.events.map((event) => (
+                                                    <TimelineCompactCard key={event.id} event={event} />
+                                                ))}
+                                            </div>
+                                        </article>
+                                    ))}
+                                </motion.div>
+                            </div>
                         </div>
-                    </div>
+                    )}
 
-                    <div className="flex flex-col gap-6 min-[900px]:hidden">
+                    <div className={cn("flex flex-col gap-6", !isMobile && "min-[900px]:hidden")}>
                         {groups.map((group) => (
                             <article key={group.year} className="border border-border-subtle bg-bg-primary/60 p-4">
                                 <div className="flex items-center justify-between border-b border-border-subtle pb-3">
