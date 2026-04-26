@@ -80,6 +80,7 @@ export function TimelineView({ events }: { events: TimelineEvent[] }) {
     }, [activeTypes, events]);
 
     const groups = useMemo(() => normalizeTimelineEvents(filteredEvents), [filteredEvents]);
+    const desktopEvents = useMemo(() => groups.flatMap((group) => group.events), [groups]);
     const barPoints = useMemo(() => buildTimelineBarPoints(groups), [groups]);
     const [activeMonthKey, setActiveMonthKey] = useState<string>(barPoints[0]?.key ?? "");
     const [isScrubbing, setIsScrubbing] = useState(false);
@@ -219,15 +220,13 @@ export function TimelineView({ events }: { events: TimelineEvent[] }) {
                             }}
                         >
                             <motion.div ref={trackRef} style={{ x: trackX }} className="flex h-full items-start gap-4">
-                                    {groups.map((group) => (
-                                        <article key={group.year} className="h-full w-[520px] shrink-0 border border-border-subtle bg-bg-primary/60 p-4">
-                                            <div className="flex h-full flex-col gap-3 overflow-auto pr-1">
-                                                {group.events.map((event) => (
-                                                    <div id={`timeline-event-${event.id}`} key={event.id}>
-                                                        <TimelineCompactCard event={event} onOpen={openEvent} />
-                                                    </div>
-                                                ))}
-                                            </div>
+                                    {desktopEvents.map((event) => (
+                                        <article
+                                            key={event.id}
+                                            id={`timeline-event-${event.id}`}
+                                            className="w-[440px] shrink-0 border border-border-subtle bg-bg-primary/60 p-4"
+                                        >
+                                            <TimelineCompactCard event={event} onOpen={openEvent} />
                                         </article>
                                     ))}
                             </motion.div>
