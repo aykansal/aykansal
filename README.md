@@ -1,6 +1,6 @@
 ## Hi there! 
 
-I'm [Ayush](https://x.com/aykansal), a full-stack developer [![Portfolio](https://img.shields.io/badge/View_Portfolio-1C1C1C?style=flat&logo=codementor&logoColor=white)](https://aykansal.com)
+I'm [Ayush](https://x.com/aykansal), a full-stack developer [![Portfolio](https://img.shields.io/badge/View_Portfolio-1C1C1C?style=flat&logo=codementor&logoColor=white)](https://aykansal.com) [![skills.sh](https://skills.sh/b/aykansal/aykansal)](https://skills.sh/aykansal/aykansal)
 
 I love turning ideas into products
 I build consumer apps, dev tools, and occasionally explore in multi-domains.
