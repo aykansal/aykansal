@@ -1,16 +1,19 @@
-import { fetchHashnodePost } from "@/lib/hashnode";
+// import { fetchHashnodePost } from "@/lib/hashnode";
 import { notFound } from "next/navigation";
-import Link from "next/link";
+// import Link from "next/link";
 import { Metadata } from "next";
-import { MermaidRenderer } from "@/components/ui/mermaid-renderer";
-import { TableOfContents } from "@/components/ui/table-of-contents";
-import * as cheerio from "cheerio";
+// import { MermaidRenderer } from "@/components/ui/mermaid-renderer";
+// import { TableOfContents } from "@/components/ui/table-of-contents";
+// import * as cheerio from "cheerio";
 
 type Props = {
     params: Promise<{ slug: string }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(_props: Props): Promise<Metadata> {
+    return { title: "Blogs disabled" };
+
+    /*
     const resolvedParams = await params;
     const post = await fetchHashnodePost(resolvedParams.slug);
 
@@ -38,16 +41,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             images: post.coverImage ? [post.coverImage.url] : [],
         },
     };
+    */
 }
 
+/*
 function generateSlug(text: string) {
     return text
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/(^-|-$)+/g, "");
 }
+*/
 
-export default async function BlogPost({ params }: Props) {
+export default async function BlogPost(_props: Props) {
+    notFound();
+
+    /*
     const resolvedParams = await params;
     const post = await fetchHashnodePost(resolvedParams.slug);
 
@@ -69,7 +78,6 @@ export default async function BlogPost({ params }: Props) {
 
             if (!id) {
                 id = generateSlug(title);
-                // Ensure unique id
                 let count = 1;
                 let uniqueId = id;
                 while (tocList.find((t) => t.id === uniqueId)) {
@@ -81,7 +89,7 @@ export default async function BlogPost({ params }: Props) {
             }
 
             const level = parseInt(element.tagName.replace("h", ""), 10);
-            
+
             tocList.push({
                 id,
                 title,
@@ -95,8 +103,8 @@ export default async function BlogPost({ params }: Props) {
 
     return (
         <main className="mx-auto max-w-5xl px-6 py-24 min-h-[calc(100vh-56px)] relative">
-            <Link 
-                href="/blogs" 
+            <Link
+                href="/blogs"
                 className="group flex items-center gap-2 text-text-muted hover:text-text-primary transition-colors mb-12 font-jetbrains text-sm w-fit outline-none"
             >
                 <span className="group-hover:-translate-x-1 transition-transform">←</span>
@@ -117,17 +125,17 @@ export default async function BlogPost({ params }: Props) {
                         </div>
                     </header>
 
-                    <div 
+                    <div
                         className="prose dark:prose-invert max-w-none prose-headings:font-jetbrains prose-p:font-space prose-a:text-accent-primary hover:prose-a:text-accent-primary-hover prose-img:rounded-xl prose-pre:bg-bg-secondary prose-pre:text-text-primary prose-pre:border prose-pre:border-border-subtle prose-hr:border-border-subtle prose-blockquote:border-l-accent-primary prose-blockquote:text-text-muted prose-blockquote:font-space prose-blockquote:not-italic prose-strong:text-text-primary prose-td:border-border-subtle prose-th:border-border-subtle prose-th:text-text-primary scroll-mt-24 text-text-secondary leading-relaxed"
-                        dangerouslySetInnerHTML={{ __html: parsedHtml }} 
+                        dangerouslySetInnerHTML={{ __html: parsedHtml }}
                     />
 
                     {post.tags && post.tags.length > 0 && (
                         <div className="mt-16 pt-8 border-t border-border-subtle">
                             <div className="flex flex-wrap gap-2">
                                 {post.tags.map(tag => (
-                                    <span 
-                                        key={tag.name} 
+                                    <span
+                                        key={tag.name}
                                         className="bg-bg-secondary text-text-primary px-3 py-1.5 rounded-full text-xs font-jetbrains"
                                     >
                                         #{tag.name}
@@ -144,4 +152,5 @@ export default async function BlogPost({ params }: Props) {
             <MermaidRenderer />
         </main>
     );
+    */
 }
