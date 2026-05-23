@@ -61,19 +61,19 @@ export default function RootLayout({
             <body className="flex min-h-screen flex-col" suppressHydrationWarning>
                 <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
                 <PostHogProvider>
-                <Suspense fallback={null}><PostHogPageView /></Suspense>
-                <ThemeProvider>
-                    <a
-                        href="#main"
-                        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-2 focus:z-60 focus:rounded focus:bg-accent-primary focus:px-3 focus:py-1.5 focus:font-space focus:text-[14px] focus:text-bg-primary"
-                    >
-                        skip → main
-                    </a>
-                    <Navbar />
-                    <ThemeKeys />
-                    <div id="main" className="flex-1">{children}</div>
-                    <ThemePicker />
-                </ThemeProvider>
+                    <Suspense fallback={null}><PostHogPageView /></Suspense>
+                    <ThemeProvider>
+                        <a
+                            href="#main"
+                            className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-2 focus:z-60 focus:rounded focus:bg-accent-primary focus:px-3 focus:py-1.5 focus:font-space focus:text-[14px] focus:text-bg-primary"
+                        >
+                            skip → main
+                        </a>
+                        <Navbar />
+                        <ThemeKeys />
+                        <div id="main" className="flex-1">{children}</div>
+                        <ThemePicker />
+                    </ThemeProvider>
                 </PostHogProvider>
                 {/* <Analytics />
                 <SpeedInsights /> */}
