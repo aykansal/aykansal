@@ -14,19 +14,20 @@ interface CustomImageProps {
 export function CustomImage({ src, alt, caption, width = 600, height = 400 }: CustomImageProps) {
     const isLocal = src.startsWith("/") || src.startsWith(".");
     const parsedWidth = typeof width === "string" ? parseInt(width, 10) : width;
+    const parsedHeight = typeof height === "string" ? parseInt(height, 10) : height;
 
     return (
         <div className="my-8 flex flex-col items-center">
             <motion.div
                 className="relative overflow-hidden rounded-xl border border-border-default bg-bg-secondary w-full"
-                style={{ maxWidth: `${parsedWidth}px` }}
+                style={{ maxWidth: `${parsedWidth}px`, aspectRatio: `${parsedWidth} / ${parsedHeight}` }}
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             >
                 {isLocal ? (
-                    <div className="relative aspect-16/10 w-full">
+                    <div className="relative w-full h-full">
                         <Image
                             src={src}
                             alt={alt}

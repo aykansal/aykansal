@@ -22,7 +22,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "blog:schema": "node scripts/generate-blog-config-schema.mjs"
+    "blog:schema": "node --experimental-strip-types scripts/generate-blog-config-schema.mjs"
   },
   "dependencies": {
     "@hugeicons/core-free-icons": "^4.1.4",

@@ -13,11 +13,14 @@ function compareByDate(a: BlogPost, b: BlogPost): number {
     return new Date(b.date).getTime() - new Date(a.date).getTime();
 }
 
+/** Lower number = higher priority; missing priority sorts after explicit values. */
+function sortPriority(post: BlogPost): number {
+    return post.priority ?? Number.POSITIVE_INFINITY;
+}
+
 export function compareBlogPosts(a: BlogPost, b: BlogPost): number {
-    if (a.priority != null && b.priority != null) {
-        const byPriority = a.priority - b.priority;
-        if (byPriority !== 0) return byPriority;
-    }
+    const byPriority = sortPriority(a) - sortPriority(b);
+    if (byPriority !== 0) return byPriority;
     return compareByDate(a, b);
 }
 
