@@ -27,6 +27,7 @@
   "dependencies": {
     "@hugeicons/core-free-icons": "^4.1.4",
     "@hugeicons/react": "^1.1.6",
+    "@radix-ui/react-slot": "^1.2.3",
     "@ridemountainpig/svgl-react": "^1.0.17",
     "@tailwindcss/typography": "^0.5.19",
     "@vercel/analytics": "^2.0.1",
