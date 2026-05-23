@@ -3,14 +3,20 @@ import type { Metadata } from "next";
 // import { SpeedInsights } from "@vercel/speed-insights/next";
 import { spaceGrotesk, jetbrainsMono, micro5 } from "@/lib/fonts";
 import { ThemeProvider } from "@/components/layout/theme-provider";
+import { MotionProvider } from "@/components/layout/motion-provider";
 import { Navbar } from "@/components/layout/navbar";
 import { ThemeKeys } from "@/components/layout/theme-keys";
 import { ThemePicker } from "@/components/ui/theme-picker";
 import { PostHogProvider } from "@/components/layout/posthog-provider";
 import { PostHogPageView } from "@/components/layout/posthog-pageview";
+import { Footer } from "@/components/layout/footer";
 import { Suspense } from "react";
 import { SITE } from "@/config/site";
 import "./globals.css";
+import { Inter } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
     title: SITE.title,
@@ -57,22 +63,25 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${micro5.variable}`} suppressHydrationWarning>
-            <body className="flex min-h-screen flex-col" suppressHydrationWarning>
+        <html lang="en" className={cn(spaceGrotesk.variable, jetbrainsMono.variable, micro5.variable, "font-sans", inter.variable)} suppressHydrationWarning>
+            <body className="flex min-h-dvh flex-col" suppressHydrationWarning>
                 <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
                 <PostHogProvider>
                     <Suspense fallback={null}><PostHogPageView /></Suspense>
                     <ThemeProvider>
-                        <a
-                            href="#main"
-                            className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-2 focus:z-60 focus:rounded focus:bg-accent-primary focus:px-3 focus:py-1.5 focus:font-space focus:text-[14px] focus:text-bg-primary"
-                        >
-                            skip → main
-                        </a>
-                        <Navbar />
-                        <ThemeKeys />
-                        <div id="main" className="flex-1">{children}</div>
-                        <ThemePicker />
+                        <MotionProvider>
+                            <a
+                                href="#main"
+                                className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-2 focus:z-60 focus:rounded focus:bg-accent-primary focus:px-3 focus:py-1.5 focus:font-space focus:text-[14px] focus:text-bg-primary"
+                            >
+                                skip → main
+                            </a>
+                            <Navbar />
+                            <ThemeKeys />
+                            <div id="main" className="flex flex-1 flex-col">{children}</div>
+                            <Footer />
+                            <ThemePicker />
+                        </MotionProvider>
                     </ThemeProvider>
                 </PostHogProvider>
                 {/* <Analytics />

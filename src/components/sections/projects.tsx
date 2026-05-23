@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView } from "@/lib/motion";
 import Link from "next/link";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { GithubIcon, ArrowUpRight01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";

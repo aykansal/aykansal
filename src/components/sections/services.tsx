@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "@/lib/motion";
 import { services, type Service } from "@/content/services";
 import { SOCIAL } from "@/config/links";
 

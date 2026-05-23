@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView } from "@/lib/motion";
 import { experience, formatDate, type ExperienceEntry } from "@/content/experience";
 
 const ease = [0.16, 1, 0.3, 1] as const;

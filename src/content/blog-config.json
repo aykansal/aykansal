@@ -1,0 +1,36 @@
+[
+  {
+    "id": "token-vending-machine-separate-microservice-architecture",
+    "slug": "token-vending-machine-separate-microservice-architecture",
+    "title": "Token Vending Machine: Redis-Mediated Microservice Architecture",
+    "subtitle": "Complete token abstraction where the main app only asks Redis for tokens—never refreshes, never talks to OAuth.",
+    "date": "May 24, 2026",
+    "tags": ["Architecture", "Redis", "OAuth", "Microservices"],
+    "show": true,
+    "featured": false,
+    "markdownFile": "token-vending-machine-separate-microservice-architecture.md"
+  },
+  {
+    "id": "how-whatsapp-encryption-works",
+    "slug": "how-whatsapp-encryption-works",
+    "title": "How Does WhatsApp Encryption Work?",
+    "subtitle": "Paint mixing, rotating keys, prekeys, and the places encryption stops protecting you.",
+    "date": "April 19, 2026",
+    "tags": ["Security", "Cryptography", "WhatsApp"],
+    "show": true,
+    "featured": false,
+    "priority": 10,
+    "markdownFile": "how-whatsapp-encryption-works.md"
+  },
+  {
+    "id": "understanding-mcp",
+    "slug": "understanding-mcp",
+    "title": "Understanding MCP",
+    "subtitle": "How the Model Context Protocol connects AI models to tools, data, and apps through a standardized layer.",
+    "date": "May 22, 2026",
+    "tags": ["AI", "MCP", "Integrations"],
+    "show": true,
+    "featured": false,
+    "markdownFile": "understanding-mcp.md"
+  }
+]

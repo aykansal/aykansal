@@ -28,27 +28,29 @@ function ThemeToggle() {
 
 export function Footer() {
     return (
-        <footer className="relative mt-24 -mx-6 bg-bg-secondary pb-0">
-            {/* Info bar */}
-            <div className="mx-auto max-w-2xl px-6">
-                <div className="flex items-center justify-between py-4">
-                    <span className="font-space text-[10px] tracking-wider text-text-muted">&copy; 2026 Ayush Kansal. All rights reserved. Built with &hearts;</span>
-                    <ThemeToggle />
+        <footer className="mt-24 w-full pb-0">
+            <div className="relative mx-auto max-w-2xl bg-bg-secondary" style={{ containerType: "inline-size" }}>
+                {/* Info bar */}
+                <div className="px-6">
+                    <div className="flex items-center justify-between py-4">
+                        <span className="font-space text-[10px] tracking-wider text-text-muted">&copy; 2026 Ayush Kansal. All rights reserved. Built with &hearts;</span>
+                        <ThemeToggle />
+                    </div>
                 </div>
-            </div>
 
-            {/* Giant brand text — fills content width, centered, bottom-aligned */}
-            <div className="relative mx-auto max-w-2xl overflow-hidden px-6" style={{ containerType: "inline-size" }}>
-                <span className="block select-none leading-[0.65] text-center font-micro  text-accent-primary" style={{ fontSize: "32cqw" }} aria-hidden="true">
-                    aykansal
-                </span>
+                {/* Giant brand text — fills content width, centered, bottom-aligned */}
+                <div className="relative overflow-hidden px-6">
+                    <span className="block select-none text-center font-micro leading-[0.65] text-accent-primary" style={{ fontSize: "32cqw" }} aria-hidden="true">
+                        aykansal
+                    </span>
 
-                <div
-                    className="pointer-events-none absolute inset-0"
-                    style={{
-                        background: "linear-gradient(to bottom, transparent 20%, var(--bg-secondary) 95%)",
-                    }}
-                />
+                    <div
+                        className="pointer-events-none absolute inset-0"
+                        style={{
+                            background: "linear-gradient(to bottom, transparent 20%, var(--bg-secondary) 95%)",
+                        }}
+                    />
+                </div>
             </div>
         </footer>
     );
