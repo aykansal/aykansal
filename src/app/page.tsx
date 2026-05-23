@@ -8,7 +8,6 @@ import { Projects } from "@/components/sections/projects";
 // import { Testimonials } from "@/components/sections/testimonials";
 import { Services } from "@/components/sections/services";
 import { Connections } from "@/components/sections/connections";
-import { Footer } from "@/components/layout/footer";
 
 export default function Home() {
     return (
@@ -27,7 +26,6 @@ export default function Home() {
             {/* <Testimonials /> */}
             <Services />
             <Connections />
-            <Footer />
         </main>
     );
 }

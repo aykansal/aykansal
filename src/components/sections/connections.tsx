@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect, useCallback, type ComponentType, type SVGProps } from "react";
-import { motion } from "framer-motion";
+import { motion } from "@/lib/motion";
 import { useTheme } from "next-themes";
 import { GitHubDark, GitHubLight, LinkedIn, XDark, XLight, CalcomDark, CalcomLight, Gmail } from "@ridemountainpig/svgl-react";
 import { SOCIAL } from "@/config/links";

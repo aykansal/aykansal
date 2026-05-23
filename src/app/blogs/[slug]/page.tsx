@@ -1,156 +1,138 @@
-// import { fetchHashnodePost } from "@/lib/hashnode";
+import fs from "fs/promises";
+import path from "path";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-// import Link from "next/link";
-import { Metadata } from "next";
-// import { MermaidRenderer } from "@/components/ui/mermaid-renderer";
-// import { TableOfContents } from "@/components/ui/table-of-contents";
-// import * as cheerio from "cheerio";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
+import { rehypeFixBlogHtml } from "@/lib/rehype-fix-blog-html";
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { blogMarkdownComponents } from "@/components/blog/blog-markdown-components";
+import { blogConfig } from "@/lib/blog-config";
+import { BlogPostTransition } from "@/components/blog/blog-post-transition";
 
-type Props = {
-    params: Promise<{ slug: string }>;
-};
+// Generate static params for Next.js build-time SSG
+export async function generateStaticParams() {
+    return blogConfig
+        .filter((post) => post.show)
+        .map((post) => ({
+            slug: post.slug,
+        }));
+}
 
-export async function generateMetadata(_props: Props): Promise<Metadata> {
-    return { title: "Blogs disabled" };
-
-    /*
-    const resolvedParams = await params;
-    const post = await fetchHashnodePost(resolvedParams.slug);
-
-    if (!post) {
-        return {
-            title: "Post Not Found",
-        };
-    }
+// Dynamic SEO metadata generation
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
+    const post = blogConfig.find((p) => p.slug === slug && p.show);
+    if (!post) return {};
 
     return {
-        title: post.title,
-        description: post.brief,
+        title: `${post.title} - Ayush Kansal`,
+        description: post.subtitle,
         openGraph: {
-            title: post.title,
-            description: post.brief,
+            title: `${post.title} - Ayush Kansal`,
+            description: post.subtitle,
             type: "article",
-            publishedTime: post.publishedAt,
-            authors: ["aykansal"],
-            images: post.coverImage ? [post.coverImage.url] : [],
+            tags: post.tags,
         },
         twitter: {
             card: "summary_large_image",
-            title: post.title,
-            description: post.brief,
-            images: post.coverImage ? [post.coverImage.url] : [],
+            title: `${post.title} - Ayush Kansal`,
+            description: post.subtitle,
         },
     };
-    */
 }
 
-/*
-function generateSlug(text: string) {
-    return text
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/(^-|-$)+/g, "");
-}
-*/
-
-export default async function BlogPost(_props: Props) {
-    notFound();
-
-    /*
-    const resolvedParams = await params;
-    const post = await fetchHashnodePost(resolvedParams.slug);
-
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
+    const post = blogConfig.find((p) => p.slug === slug && p.show);
     if (!post) {
         notFound();
     }
 
-    let parsedHtml = post.content?.html || "";
-    let tocList: { id: string; level: number; title: string; slug: string }[] = [];
+    const filePath = path.join(process.cwd(), "src/content/blog-posts", post.markdownFile);
+    let content = "";
 
-    if (parsedHtml) {
-        const $ = cheerio.load(parsedHtml, null, false);
-        const headingElements = $("h1, h2, h3, h4");
-
-        headingElements.each((index, element) => {
-            const h = $(element);
-            const title = h.text();
-            let id = h.attr("id");
-
-            if (!id) {
-                id = generateSlug(title);
-                let count = 1;
-                let uniqueId = id;
-                while (tocList.find((t) => t.id === uniqueId)) {
-                    uniqueId = `${id}-${count}`;
-                    count++;
-                }
-                id = uniqueId;
-                h.attr("id", id);
-            }
-
-            const level = parseInt(element.tagName.replace("h", ""), 10);
-
-            tocList.push({
-                id,
-                title,
-                slug: id,
-                level,
-            });
-        });
-
-        parsedHtml = $.html();
+    try {
+        content = await fs.readFile(filePath, "utf-8");
+    } catch (e) {
+        console.error(`Failed to read markdown file: ${post.markdownFile}`, e);
+        notFound();
     }
 
+    // Reading time calculation (based on ~200 WPM)
+    const words = content.split(/\s+/).length;
+    const readingTime = Math.max(1, Math.ceil(words / 200));
+
     return (
-        <main className="mx-auto max-w-5xl px-6 py-24 min-h-[calc(100vh-56px)] relative">
-            <Link
-                href="/blogs"
-                className="group flex items-center gap-2 text-text-muted hover:text-text-primary transition-colors mb-12 font-jetbrains text-sm w-fit outline-none"
-            >
-                <span className="group-hover:-translate-x-1 transition-transform">←</span>
-                Back to blogs
-            </Link>
+        <main className="mx-auto flex w-full max-w-2xl flex-col px-6 pt-12 pb-0">
+            <BlogPostTransition>
+                {/* Breadcrumb back navigation */}
+                <Breadcrumb className="mb-6">
+                    <BreadcrumbList className="font-jetbrains text-[11px] uppercase tracking-wide">
+                        <BreadcrumbItem>
+                            <BreadcrumbLink asChild>
+                                <Link href="/">Home</Link>
+                            </BreadcrumbLink>
+                        </BreadcrumbItem>
+                        <BreadcrumbSeparator />
+                        <BreadcrumbItem>
+                            <BreadcrumbLink asChild>
+                                <Link href="/blogs">Blogs</Link>
+                            </BreadcrumbLink>
+                        </BreadcrumbItem>
+                        <BreadcrumbSeparator />
+                        <BreadcrumbItem>
+                            <BreadcrumbPage className="text-text-primary truncate max-w-[200px] sm:max-w-none">
+                                {post.title}
+                            </BreadcrumbPage>
+                        </BreadcrumbItem>
+                    </BreadcrumbList>
+                </Breadcrumb>
 
-            <div className="lg:grid lg:grid-cols-[1fr_250px] lg:gap-16 items-start">
-                <article className="min-w-0">
-                    <header className="mb-12">
-                        <h1 className="font-jetbrains text-4xl sm:text-5xl font-bold text-text-primary mb-8 leading-tight">
-                            {post.title}
-                        </h1>
-                        <div className="flex flex-wrap items-center gap-4 text-text-muted text-sm font-space">
-                            <time dateTime={post.publishedAt} className="flex items-center gap-2">
-                                <span className="opacity-50">Published</span>
-                                {new Date(post.publishedAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
-                            </time>
-                        </div>
-                    </header>
+                {/* Header */}
+                <header className="space-y-4 mb-6">
+                    <h1 className="font-space text-[26px] sm:text-[32px] leading-tight font-bold tracking-tight text-text-primary">
+                        {post.title}
+                    </h1>
 
-                    <div
-                        className="prose dark:prose-invert max-w-none prose-headings:font-jetbrains prose-p:font-space prose-a:text-accent-primary hover:prose-a:text-accent-primary-hover prose-img:rounded-xl prose-pre:bg-bg-secondary prose-pre:text-text-primary prose-pre:border prose-pre:border-border-subtle prose-hr:border-border-subtle prose-blockquote:border-l-accent-primary prose-blockquote:text-text-muted prose-blockquote:font-space prose-blockquote:not-italic prose-strong:text-text-primary prose-td:border-border-subtle prose-th:border-border-subtle prose-th:text-text-primary scroll-mt-24 text-text-secondary leading-relaxed"
-                        dangerouslySetInnerHTML={{ __html: parsedHtml }}
-                    />
+                    <div className="h-px bg-border-default/60" aria-hidden="true" />
 
-                    {post.tags && post.tags.length > 0 && (
-                        <div className="mt-16 pt-8 border-t border-border-subtle">
-                            <div className="flex flex-wrap gap-2">
-                                {post.tags.map(tag => (
-                                    <span
-                                        key={tag.name}
-                                        className="bg-bg-secondary text-text-primary px-3 py-1.5 rounded-full text-xs font-jetbrains"
-                                    >
-                                        #{tag.name}
-                                    </span>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-                </article>
+                    <div className="flex flex-wrap items-center justify-between gap-2 text-[12px] font-jetbrains text-text-muted uppercase tracking-wider">
+                        <p className="flex items-center gap-1.5">
+                            <Link
+                                href="/"
+                                className="font-semibold text-text-secondary hover:text-accent-primary transition-colors"
+                            >
+                                Ayush Kansal
+                            </Link>
+                            <span className="text-text-muted/40 select-none">/</span>
+                            <span>{post.date}</span>
+                        </p>
+                        <span className="font-normal text-text-muted/50 font-mono">
+                            {readingTime} min read
+                        </span>
+                    </div>
+                </header>
 
-                <TableOfContents items={tocList} />
-            </div>
-
-            <MermaidRenderer />
+                {/* Markdown Body */}
+                <div className="prose dark:prose-invert max-w-none prose-headings:font-space prose-headings:text-text-primary prose-p:text-text-secondary prose-p:leading-relaxed prose-a:text-accent-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-text-primary prose-code:font-jetbrains prose-code:text-text-primary prose-pre:bg-bg-secondary prose-pre:border prose-pre:border-border-default prose-pre:rounded prose-img:rounded-xl">
+                    <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        rehypePlugins={[rehypeRaw, rehypeFixBlogHtml]}
+                        components={blogMarkdownComponents as never}
+                    >
+                        {content}
+                    </ReactMarkdown>
+                </div>
+            </BlogPostTransition>
         </main>
     );
-    */
 }

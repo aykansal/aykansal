@@ -2,5 +2,8 @@ packages:
   - '.'
 
 allowBuilds:
+  core-js: false
+  msw: false
   protobufjs: true
+  sharp: false
   unrs-resolver: true

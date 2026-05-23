@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useMemo } from "react";
-import { motion } from "framer-motion";
+import { motion } from "@/lib/motion";
 import { useTheme } from "next-themes";
 import { GitHubDark, GitHubLight } from "@ridemountainpig/svgl-react";
 import { cn } from "@/lib/utils";
