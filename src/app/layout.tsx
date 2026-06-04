@@ -12,6 +12,7 @@ import { PostHogPageView } from "@/components/layout/posthog-pageview";
 import { Footer } from "@/components/layout/footer";
 import { Suspense } from "react";
 import { SITE } from "@/config/site";
+import { Toolbar } from "basehub/next-toolbar";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
@@ -86,6 +87,7 @@ export default function RootLayout({
                 </PostHogProvider>
                 {/* <Analytics />
                 <SpeedInsights /> */}
+                <Toolbar />
             </body>
         </html>
     );

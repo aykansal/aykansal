@@ -1,11 +1,6 @@
-import fs from "fs/promises";
-import path from "path";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import rehypeRaw from "rehype-raw";
-import { rehypeFixBlogHtml } from "@/lib/rehype-fix-blog-html";
+import { RichText } from "basehub/react-rich-text";
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -14,62 +9,57 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { blogMarkdownComponents } from "@/components/blog/blog-markdown-components";
-import { blogConfig } from "@/lib/blog-config";
 import { BlogPostTransition } from "@/components/blog/blog-post-transition";
+import { fetchBlogPost, fetchBlogSlugs } from "@/lib/basehub-queries";
 
 // Generate static params for Next.js build-time SSG
 export async function generateStaticParams() {
-    return blogConfig
-        .filter((post) => post.show)
-        .map((post) => ({
-            slug: post.slug,
-        }));
+    const slugs = await fetchBlogSlugs();
+    return slugs.map((slug) => ({ slug }));
 }
 
 // Dynamic SEO metadata generation
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
-    const post = blogConfig.find((p) => p.slug === slug && p.show);
+    const post = await fetchBlogPost(slug);
     if (!post) return {};
 
     return {
-        title: `${post.title} - Ayush Kansal`,
+        title: `${post._title} - Ayush Kansal`,
         description: post.subtitle,
         openGraph: {
-            title: `${post.title} - Ayush Kansal`,
-            description: post.subtitle,
+            title: `${post._title} - Ayush Kansal`,
+            description: post.subtitle ?? undefined,
             type: "article",
             tags: post.tags,
         },
         twitter: {
-            card: "summary_large_image",
-            title: `${post.title} - Ayush Kansal`,
-            description: post.subtitle,
+            card: "summary_large_image" as const,
+            title: `${post._title} - Ayush Kansal`,
+            description: post.subtitle ?? undefined,
         },
     };
 }
 
+/** Format an ISO date string (e.g. "2026-05-22") into a readable form. */
+function formatDate(iso: string | null): string {
+    if (!iso) return "";
+    return new Date(iso).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    });
+}
+
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
-    const post = blogConfig.find((p) => p.slug === slug && p.show);
+    const post = await fetchBlogPost(slug);
+
     if (!post) {
         notFound();
     }
 
-    const filePath = path.join(process.cwd(), "src/content/blog-posts", post.markdownFile);
-    let content = "";
-
-    try {
-        content = await fs.readFile(filePath, "utf-8");
-    } catch (e) {
-        console.error(`Failed to read markdown file: ${post.markdownFile}`, e);
-        notFound();
-    }
-
-    // Reading time calculation (based on ~200 WPM)
-    const words = content.split(/\s+/).length;
-    const readingTime = Math.max(1, Math.ceil(words / 200));
+    const readingTime = post.body?.readingTime ?? 1;
 
     return (
         <main className="mx-auto flex w-full max-w-2xl flex-col px-6 pt-12 pb-0">
@@ -91,7 +81,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
                             <BreadcrumbPage className="text-text-primary truncate max-w-[200px] sm:max-w-none">
-                                {post.title}
+                                {post._title}
                             </BreadcrumbPage>
                         </BreadcrumbItem>
                     </BreadcrumbList>
@@ -100,7 +90,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 {/* Header */}
                 <header className="space-y-4 mb-6">
                     <h1 className="font-space text-[26px] sm:text-[32px] leading-tight font-bold tracking-tight text-text-primary">
-                        {post.title}
+                        {post._title}
                     </h1>
 
                     <div className="h-px bg-border-default/60" aria-hidden="true" />
@@ -114,7 +104,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                                 Ayush Kansal
                             </Link>
                             <span className="text-text-muted/40 select-none">/</span>
-                            <span>{post.date}</span>
+                            <span>{formatDate(post.date)}</span>
                         </p>
                         <span className="font-normal text-text-muted/50 font-mono">
                             {readingTime} min read
@@ -122,16 +112,14 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     </div>
                 </header>
 
-                {/* Markdown Body */}
-                <div className="prose dark:prose-invert max-w-none prose-headings:font-space prose-headings:text-text-primary prose-p:text-text-secondary prose-p:leading-relaxed prose-a:text-accent-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-text-primary prose-code:font-jetbrains prose-code:text-text-primary prose-pre:bg-bg-secondary prose-pre:border prose-pre:border-border-default prose-pre:rounded prose-img:rounded-xl">
-                    <ReactMarkdown
-                        remarkPlugins={[remarkGfm]}
-                        rehypePlugins={[rehypeRaw, rehypeFixBlogHtml]}
-                        components={blogMarkdownComponents as never}
-                    >
-                        {content}
-                    </ReactMarkdown>
-                </div>
+                {/* Rich Text Body from BaseHub */}
+                {post.body?.json?.content && (
+                    <div className="prose dark:prose-invert max-w-none prose-headings:font-space prose-headings:text-text-primary prose-p:text-text-secondary prose-p:leading-relaxed prose-a:text-accent-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-text-primary prose-code:font-jetbrains prose-code:text-text-primary prose-pre:bg-bg-secondary prose-pre:border prose-pre:border-border-default prose-pre:rounded prose-img:rounded-xl">
+                        <RichText>
+                            {post.body.json.content}
+                        </RichText>
+                    </div>
+                )}
             </BlogPostTransition>
         </main>
     );

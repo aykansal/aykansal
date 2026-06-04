@@ -18,8 +18,8 @@
     "machine learning"
   ],
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+   "dev": "basehub dev & next dev",
+    "build": "basehub && next build",
     "start": "next start",
     "lint": "eslint",
     "blog:schema": "node --experimental-strip-types scripts/generate-blog-config-schema.mjs"
@@ -32,6 +32,7 @@
     "@tailwindcss/typography": "^0.5.19",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
+    "basehub": "^9.6.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.16.0",

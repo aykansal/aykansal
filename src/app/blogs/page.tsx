@@ -1,15 +1,24 @@
 import Link from "next/link";
 import { BlogListTransition, BlogListItem } from "@/components/blog/blog-list-transition";
-import { blogConfig } from "@/lib/blog-config";
-import { getVisibleBlogPosts } from "@/lib/blog";
+import { fetchBlogList } from "@/lib/basehub-queries";
 
 export const metadata = {
     title: "Blogs - Ayush Kansal",
     description: "Technical writing about software, cryptography, privacy, and building tools by Ayush Kansal.",
 };
 
-export default function Blogs() {
-    const posts = getVisibleBlogPosts(blogConfig);
+/** Format an ISO date string (e.g. "2026-05-22") into a readable form. */
+function formatDate(iso: string | null): string {
+    if (!iso) return "";
+    return new Date(iso).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    });
+}
+
+export default async function Blogs() {
+    const posts = await fetchBlogList();
 
     return (
         <main className="mx-auto flex w-full max-w-2xl flex-col px-6 pt-12 pb-0">
@@ -32,9 +41,9 @@ export default function Blogs() {
             {/* Vertical list of blog cards with stagger transition */}
             <BlogListTransition>
                 {posts.map((post) => (
-                    <BlogListItem key={post.id}>
+                    <BlogListItem key={post._slug}>
                         <Link
-                            href={`/blogs/${post.slug}`}
+                            href={`/blogs/${post._slug}`}
                             className="group relative flex w-full flex-col rounded bg-bg-secondary p-5 transition-transform duration-300 ease-out hover:-translate-y-0.5"
                         >
                             {/* Dot-grid overlay for background micro-texture on hover */}
@@ -44,7 +53,7 @@ export default function Blogs() {
                                 {/* Title row */}
                                 <div className="flex items-start justify-between gap-4">
                                     <h2 className="font-space text-lg font-semibold leading-snug text-text-primary group-hover:text-accent-primary transition-colors duration-200">
-                                        {post.title}
+                                        {post._title}
                                     </h2>
                                     
                                     {post.featured && (
@@ -56,7 +65,7 @@ export default function Blogs() {
 
                                 {/* Metadata */}
                                 <time className="font-jetbrains text-[10px] text-text-muted uppercase tracking-wider">
-                                    {post.date}
+                                    {formatDate(post.date)}
                                 </time>
 
                                 {/* Subtitle/Preview */}
