@@ -8,9 +8,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { ThemeKeys } from "@/components/layout/theme-keys";
 import { ThemePicker } from "@/components/ui/theme-picker";
 import { PostHogProvider } from "@/components/layout/posthog-provider";
-import { PostHogPageView } from "@/components/layout/posthog-pageview";
 import { Footer } from "@/components/layout/footer";
-import { Suspense } from "react";
 import { SITE } from "@/config/site";
 import "./globals.css";
 import { Inter } from "next/font/google";
@@ -67,7 +65,6 @@ export default function RootLayout({
             <body className="flex min-h-dvh flex-col" suppressHydrationWarning>
                 <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
                 <PostHogProvider>
-                    <Suspense fallback={null}><PostHogPageView /></Suspense>
                     <ThemeProvider>
                         <MotionProvider>
                             <a
