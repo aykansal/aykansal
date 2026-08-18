@@ -2,6 +2,7 @@ import { HeroBanner } from "@/components/sections/hero-banner";
 import { HeroPlayer } from "@/components/sections/hero-player";
 import { HeroIntro } from "@/components/sections/hero-intro";
 import { HeroManifesto } from "@/components/sections/hero-manifesto";
+import { Journey } from "@/components/sections/journey";
 import { Experience } from "@/components/sections/experience";
 import { GitHubGraph } from "@/components/sections/github-graph";
 import { Projects } from "@/components/sections/projects";
@@ -20,6 +21,7 @@ export default function Home() {
             <div className="mt-8">
                 <HeroManifesto />
             </div>
+            <Journey />
             <Experience />
             <GitHubGraph />
             <Projects />
