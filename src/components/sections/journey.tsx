@@ -6,43 +6,29 @@ import { cn } from "@/lib/utils";
 import { gapBefore, journey, KIND_LABELS, type JourneyEvent } from "@/content/journey";
 
 const ease = [0.16, 1, 0.3, 1] as const;
+const SPINE = "left-[calc(4rem+(1.25rem/2)-0.5px)]";
 
 function JourneyMark({
     event,
     index,
     previous,
     active,
-    onFocus,
 }: {
     event: JourneyEvent;
     index: number;
     previous?: JourneyEvent;
     active: boolean;
-    onFocus: (id: string) => void;
 }) {
     const ref = useRef<HTMLLIElement>(null);
     const inView = useInView(ref, { once: true, margin: "-40px" });
     const isNow = event.kind === "now";
 
-    useEffect(() => {
-        const el = ref.current;
-        if (!el) return;
-
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) onFocus(event.id);
-            },
-            { rootMargin: "-42% 0px -48% 0px", threshold: 0 },
-        );
-
-        observer.observe(el);
-        return () => observer.disconnect();
-    }, [event.id, onFocus]);
-
     return (
         <motion.li
             ref={ref}
-            className="grid grid-cols-[3.5rem_1.25rem_minmax(0,1fr)] items-start"
+            data-journey-id={event.id}
+            aria-current={active ? "step" : undefined}
+            className="grid grid-cols-[4rem_1.25rem_minmax(0,1fr)] items-start"
             style={{ paddingTop: gapBefore(previous, event) }}
             initial={{ opacity: 0, y: 10 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -50,17 +36,14 @@ function JourneyMark({
         >
             {isNow ? (
                 <span
-                    className={cn(
-                        "pt-[3px] font-jetbrains text-[10px] uppercase leading-none tracking-wider motion-safe:transition-colors motion-safe:duration-500",
-                        "text-accent-primary",
-                    )}
+                    className="whitespace-nowrap pt-[3px] font-jetbrains text-[10px] uppercase leading-none tracking-wider text-accent-primary"
                 >
                     {event.date}
                 </span>
             ) : (
                 <time
                     className={cn(
-                        "pt-[3px] font-jetbrains text-[10px] uppercase leading-none tracking-wider motion-safe:transition-colors motion-safe:duration-500",
+                        "whitespace-nowrap pt-[3px] font-jetbrains text-[10px] uppercase leading-none tracking-wider motion-safe:transition-colors motion-safe:duration-500",
                         active ? "text-accent-primary" : "text-text-muted",
                     )}
                     dateTime={`${event.year}-${String(event.month).padStart(2, "0")}`}
@@ -125,8 +108,41 @@ function JourneyMark({
 
 export function Journey() {
     const sectionRef = useRef<HTMLElement>(null);
+    const listRef = useRef<HTMLOListElement>(null);
     const reduceMotion = useReducedMotion();
     const [activeId, setActiveId] = useState<string>(journey[0]?.id ?? "");
+
+    useEffect(() => {
+        const list = listRef.current;
+        if (!list) return;
+
+        const nodes = list.querySelectorAll<HTMLElement>("[data-journey-id]");
+        const observer = new IntersectionObserver(
+            (entries) => {
+                const visible = entries.filter((entry) => entry.isIntersecting);
+                if (visible.length === 0) return;
+
+                const focusY = window.innerHeight * 0.45;
+                let best = visible[0];
+                let bestDist = Infinity;
+                for (const entry of visible) {
+                    const rect = entry.boundingClientRect;
+                    const dist = Math.abs(rect.top + rect.height / 2 - focusY);
+                    if (dist < bestDist) {
+                        bestDist = dist;
+                        best = entry;
+                    }
+                }
+
+                const id = (best.target as HTMLElement).dataset.journeyId;
+                if (id) setActiveId(id);
+            },
+            { rootMargin: "-36% 0px -46% 0px", threshold: [0, 0.25, 0.6] },
+        );
+
+        for (const node of nodes) observer.observe(node);
+        return () => observer.disconnect();
+    }, []);
 
     const { scrollYProgress } = useScroll({
         target: sectionRef,
@@ -147,19 +163,19 @@ export function Journey() {
                 the turns that actually stuck
             </p>
 
-            <ol className="relative mt-10 pb-2" aria-label="Journey timeline">
+            <ol ref={listRef} className="relative mt-10 pb-2" aria-label="Journey timeline">
                 <div
-                    className="pointer-events-none absolute top-1 bottom-2 left-[calc(3.5rem+(1.25rem/2)-0.5px)] w-px bg-border-default"
+                    className={cn("pointer-events-none absolute top-1 bottom-2 w-px bg-border-default", SPINE)}
                     aria-hidden="true"
                 />
                 {reduceMotion ? (
                     <div
-                        className="pointer-events-none absolute top-1 bottom-2 left-[calc(3.5rem+(1.25rem/2)-0.5px)] w-px bg-accent-primary/70"
+                        className={cn("pointer-events-none absolute top-1 bottom-2 w-px bg-accent-primary/70", SPINE)}
                         aria-hidden="true"
                     />
                 ) : (
                     <motion.div
-                        className="pointer-events-none absolute top-1 bottom-2 left-[calc(3.5rem+(1.25rem/2)-0.5px)] w-px origin-top bg-accent-primary/70"
+                        className={cn("pointer-events-none absolute top-1 bottom-2 w-px origin-top bg-accent-primary/70", SPINE)}
                         style={{ scaleY: lineProgress }}
                         aria-hidden="true"
                     />
@@ -172,7 +188,6 @@ export function Journey() {
                         index={index}
                         previous={journey[index - 1]}
                         active={activeId === event.id}
-                        onFocus={setActiveId}
                     />
                 ))}
             </ol>
